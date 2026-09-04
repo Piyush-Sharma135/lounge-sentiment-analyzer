@@ -1,0 +1,8 @@
+stage,count,definition
+Exploded Reddit comment units,61413,All comment units after exploding scraped Reddit threads
+Experience-bearing after Stage 1,17742,"Direct, second-hand, or generalized lounge experience"
+2026 YTD production scope,5850,Parent post date from 2026-01-01 through 2026-08-31
+Stage 2A-1 usable,3696,Contains a defensible experience-bearing proposition
+Known-attribution Stage 2B population,2215,At least one known issuer/network entity; UNKNOWN-only excluded from competitive API analysis
+Stage 2B extracted observations,6003,Entity × aspect × sentiment × exact evidence
+Final clean observations,5997,After final evidence QA

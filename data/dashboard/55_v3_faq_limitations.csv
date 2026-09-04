@@ -1,0 +1,12 @@
+topic,limitation
+Time proxy,Individual comment timestamps were unavailable; parent post date is used as the temporal proxy.
+Representation,Reddit users are not representative of all airport lounge users or cardmembers.
+Source mix,Branded communities are heavily represented; raw volume is not market share or popularity.
+Attribution,Headline analysis uses COMMENT_EXPLICIT. TITLE_RESOLVED is sensitivity only.
+Unknown attribution,UNKNOWN-only observations are excluded from named competitive comparison; UNKNOWN is retained in master data.
+Airport precision,Airport is left missing when not defensibly attributable. Missing is preferred to guessing.
+Competitive airport gaps,A same-airport competitive gap is displayed only when at least one other sufficiently sampled peer exists at that airport.
+Low sample,"Low/very-low sample aspect, network, airport and monthly cells should not drive executive claims."
+Quotes,"Displayed Reddit comments are illustrative evidence of measured patterns, not estimates of frequency."
+Causality,This is observational voice-of-customer analysis; it does not establish causal effects.
+Source robustness,NON-HOME / OTHER COMMUNITY is not synonymous with a neutral or representative population.

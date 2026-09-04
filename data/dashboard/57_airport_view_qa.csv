@@ -1,0 +1,13 @@
+check,status,expected,actual,detail
+presentation_covers_all_eligible_keys,PASS,25,25,The approved presentation table exactly covers the frozen absolute-evidence union.
+presentation_composition_matches_source,PASS,25,25,Every eligible composition reproduces the primary comment collapse.
+airport_comment_identity,PASS,25,25,"Positive, negative, and mixed/neutral equal unique comments for every row."
+airport_comment_deduplication,PASS,0,0,Each comment contributes at most once to a brand-airport composition.
+same_airport_peer_relationships,PASS,13,13,Every comparison uses other eligible brands at the same airport.
+watchlists_do_not_overlap,PASS,0,0,No brand-airport combination appears in both curated watchlists.
+no_new_airport_eligibility,PASS,25,25,Output keys exactly equal the frozen absolute-evidence union.
+coordinate_coverage,PASS,0,0,Every eligible airport uses the approved static coordinate reference.
+frozen_absolute_coverage,PASS,16,16,The exhaustive airport universe reproduces frozen absolute coverage.
+frozen_competitive_coverage,PASS,5,5,All frozen same-airport comparison locations are represented.
+all_airports_table_complete,PASS,16,16,The exhaustive table source contains every eligible airport.
+map_airports_complete,PASS,16,16,The map source contains every eligible airport.

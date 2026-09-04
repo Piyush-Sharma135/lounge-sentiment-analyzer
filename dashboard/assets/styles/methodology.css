@@ -1,0 +1,267 @@
+/* FAQ / Methodology — trust and documentation layer */
+.method-intro-strip,
+.method-callout {
+  padding: 0.72rem 0.88rem;
+  border: 1px solid #d9e3ef;
+  border-left: 4px solid #4f78b2;
+  border-radius: 11px;
+  background: #f8fafd;
+  color: #344a68;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.method-intro-strip { margin: 0 0 1.1rem; }
+.method-callout { margin: 0.7rem 0 1.05rem; }
+.method-callout.warm { border-color: #ead7af; border-left-color: #c48a28; background: #fff8eb; color: #654e27; }
+
+.method-section-heading {
+  scroll-margin-top: 0.8rem;
+  margin-top: 0;
+}
+
+.method-jump-nav {
+  margin: -0.08rem 0 0.82rem;
+  padding: 0.7rem 0.78rem;
+  border: 1px solid #d7e2ef;
+  border-radius: 11px;
+  background: #f7fafe;
+}
+
+.method-jump-nav strong {
+  display: block;
+  margin-bottom: 0.48rem;
+  color: #263e5e;
+  font-size: 0.68rem;
+}
+
+.method-jump-nav > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.34rem;
+}
+
+.method-jump-nav a {
+  padding: 0.28rem 0.48rem;
+  border: 1px solid #d5e1ee;
+  border-radius: 999px;
+  background: #fff;
+  color: #315d91;
+  font-size: 0.59rem;
+  font-weight: 730;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.method-jump-nav a:hover {
+  border-color: #91afd2;
+  background: #edf4fc;
+}
+
+.method-faq-grid,
+.method-info-grid,
+.method-metric-grid,
+.method-glossary-grid {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.method-faq-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 1.05rem; }
+.method-info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 0.75rem; }
+.method-metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0.35rem 0 0.85rem; }
+.method-glossary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.method-faq-card,
+.method-info-card,
+.method-metric-card,
+.method-glossary-card,
+.method-theme-card,
+.method-example-card {
+  border: 1px solid #dbe4ef;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #ffffff, #f8fafd);
+  box-shadow: 0 5px 15px rgba(29, 51, 80, 0.035);
+}
+
+.method-faq-card { min-height: 176px; padding: 0.82rem; }
+.method-faq-card h3,
+.method-info-card h3,
+.method-theme-card h3,
+.method-example-card h3,
+.method-glossary-card h3 { margin: 0; color: #263d5c; font-size: 0.76rem; line-height: 1.35; }
+.method-faq-card p,
+.method-info-card p,
+.method-theme-card p,
+.method-glossary-card p { color: #66748a; font-size: 0.65rem; line-height: 1.48; }
+.method-faq-card a,
+.method-example-card a { color: #285b9a; font-size: 0.62rem; font-weight: 750; text-decoration: none; }
+
+.method-funnel { width: min(900px, 100%); margin: 0 auto; }
+.method-funnel-stage {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  align-items: center;
+  width: 100%;
+  padding: 0.48rem 0.7rem;
+  border: 1px solid #d9e3ef;
+  border-radius: 10px;
+  background: #f8fafd;
+}
+.method-funnel-stage.observations { border-color: #c7d8ed; background: linear-gradient(90deg, #e8f1fb, #f8fbff); }
+.method-funnel-stage strong { color: #233956; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+.method-funnel-stage span { color: #59697f; font-size: 0.68rem; line-height: 1.35; }
+.method-funnel-arrow { color: #7b8aa0; font-size: 0.72rem; line-height: 1; text-align: center; }
+
+.method-info-card { min-height: 116px; padding: 0.78rem 0.84rem; }
+.method-info-card p { margin: 0.38rem 0 0; }
+
+.method-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.62rem;
+  margin-bottom: 0.7rem;
+}
+.method-theme-card { grid-column: span 2; padding: 0.78rem; }
+.method-theme-card:nth-child(n + 4) { grid-column: span 3; }
+.method-theme-card p { margin: 0.35rem 0 0; }
+
+.method-definition-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-bottom: 0.8rem;
+}
+.method-definition-grid article { padding: 0.9rem; border: 1px solid #cad9eb; border-radius: 13px; background: #f5f9fe; }
+.method-definition-grid span,
+.method-example-label { color: #3f6fa8; font-size: 0.56rem; font-weight: 850; letter-spacing: 0.12em; }
+.method-definition-grid h3 { margin: 0.3rem 0 0; color: #213955; font-size: 0.86rem; }
+.method-definition-grid p { margin: 0.34rem 0 0; color: #607087; font-size: 0.67rem; line-height: 1.5; }
+
+.method-metric-card { min-height: 112px; padding: 0.78rem; }
+.method-metric-card strong { display: block; color: #1f3c61; font-size: 1.25rem; }
+.method-metric-card span { display: block; margin-top: 0.16rem; color: #354d6c; font-size: 0.68rem; font-weight: 800; }
+.method-metric-card small { display: block; margin-top: 0.35rem; color: #748196; font-size: 0.6rem; line-height: 1.4; }
+
+.method-rule-list { margin: 0.45rem 0 0.8rem; padding: 0.7rem 0.9rem 0.7rem 1.75rem; border: 1px solid #dce5ef; border-radius: 11px; background: #fafbfd; color: #53657d; font-size: 0.68rem; line-height: 1.55; }
+.method-rule-list li + li { margin-top: 0.18rem; }
+
+.method-formula {
+  margin: 0.55rem 0 0.85rem;
+  padding: 0.9rem;
+  border-radius: 12px;
+  background: #17345d;
+  color: #f7faff;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.method-example-card { margin-bottom: 0.72rem; padding: 0.9rem; }
+.method-example-card h3 { margin-top: 0.28rem; }
+.method-example-card blockquote { margin: 0.65rem 0; padding: 0.65rem 0.78rem; border-left: 3px solid #6c91c1; background: #f4f7fb; color: #344861; font-size: 0.68rem; line-height: 1.52; }
+.method-example-card p,
+.method-example-card li { color: #607087; font-size: 0.65rem; line-height: 1.45; }
+.method-example-card ul { margin: 0.4rem 0 0.62rem; padding-left: 1.2rem; }
+
+/* Keep every FAQ methodology expander readable against Streamlit's white surface.
+   The app shell uses light text in several dark-theme controls, which otherwise
+   leaks into collapsed summaries and technical detail after a theme rerender. */
+[data-testid="stExpander"] details {
+  border-color: #d9e3ef !important;
+  background: #ffffff !important;
+  color: #263d5c !important;
+}
+
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] summary:hover {
+  background: #ffffff !important;
+  color: #2b405f !important;
+}
+
+[data-testid="stExpander"] summary p,
+[data-testid="stExpander"] summary span,
+[data-testid="stExpander"] summary svg {
+  color: #2b405f !important;
+  fill: #2b405f !important;
+  opacity: 1 !important;
+  font-weight: 700 !important;
+}
+
+[data-testid="stExpanderDetails"],
+[data-testid="stExpanderDetails"] p,
+[data-testid="stExpanderDetails"] li,
+[data-testid="stExpanderDetails"] span,
+[data-testid="stExpanderDetails"] label {
+  color: #53657d !important;
+}
+
+[data-testid="stExpanderDetails"] strong,
+[data-testid="stExpanderDetails"] h1,
+[data-testid="stExpanderDetails"] h2,
+[data-testid="stExpanderDetails"] h3,
+[data-testid="stExpanderDetails"] th {
+  color: #263d5c !important;
+}
+
+[data-testid="stExpanderDetails"] code {
+  background: #edf2f8 !important;
+  color: #294f83 !important;
+}
+
+[data-testid="stExpanderDetails"] td {
+  background: #ffffff !important;
+  color: #45566f !important;
+}
+
+.method-example-card,
+.method-example-card h3,
+.method-example-card p,
+.method-example-card li,
+.method-example-card blockquote,
+.method-example-card a,
+.method-example-card .method-example-label {
+  opacity: 1 !important;
+}
+
+.method-example-card { background: linear-gradient(145deg, #ffffff, #f8fafd) !important; color: #263d5c !important; }
+.method-example-card h3 { color: #263d5c !important; }
+.method-example-card p,
+.method-example-card li { color: #53657d !important; }
+.method-example-card blockquote { background: #f4f7fb !important; color: #344861 !important; }
+.method-example-card a { color: #285b9a !important; }
+.method-example-card .method-example-label { color: #3f6fa8 !important; }
+
+.method-glossary-card { min-height: 112px; padding: 0.75rem 0.8rem; }
+.method-glossary-card p { margin: 0.34rem 0 0; }
+
+[class*="st-key-method-"] { scroll-margin-top: 1rem; }
+
+@media (max-width: 1100px) {
+  .method-faq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .method-metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .method-glossary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .method-theme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .method-theme-card,
+  .method-theme-card:nth-child(n + 4) { grid-column: auto; }
+  .method-theme-card:last-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 700px) {
+  .method-faq-grid,
+  .method-info-grid,
+  .method-definition-grid,
+  .method-theme-grid { grid-template-columns: minmax(0, 1fr); }
+  .method-theme-card:last-child { grid-column: auto; }
+  .method-faq-card,
+  .method-info-card { min-height: 0; }
+  .method-funnel-stage { grid-template-columns: 86px minmax(0, 1fr); }
+  .method-jump-nav a { flex: 1 1 calc(50% - 0.34rem); }
+}
+
+@media (max-width: 520px) {
+  .method-metric-grid,
+  .method-glossary-grid { grid-template-columns: minmax(0, 1fr); }
+  .method-metric-card,
+  .method-glossary-card { min-height: 0; }
+  .method-jump-nav a { flex-basis: 100%; }
+}

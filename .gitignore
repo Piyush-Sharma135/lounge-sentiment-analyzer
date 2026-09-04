@@ -1,0 +1,96 @@
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Virtual environments
+.venv/
+venv/
+
+# Python-generated files and caches
+__pycache__/
+*.py[cod]
+build/
+dist/
+wheels/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs / temporary outputs
+*.log
+logs/
+tmp/
+temp/
+output/
+
+# Private analytical data
+data/raw/
+data/intermediate/
+data/processed/
+
+# Private notebooks / working analysis
+notebooks/
+
+# Private-data presentation builders and local capture tooling
+scripts/build_executive_dashboard_tables.py
+scripts/build_airport_view_tables.py
+scripts/build_voc_tables.py
+scripts/capture_streamlit_page.py
+
+# Retired analytical dashboard modules retained outside the public runtime
+archive/
+
+# Internal specifications and unused analysis package code
+CODEX_KICKOFF.md
+DASHBOARD_SPEC.md
+src/
+
+# Inactive dashboard components and build-only assets
+dashboard/components/airport_explorer.py
+dashboard/components/aspect_intelligence.py
+dashboard/components/badges.py
+dashboard/components/brand_comparison.py
+dashboard/components/charts.py
+dashboard/components/findings.py
+dashboard/components/metric_cards.py
+dashboard/components/quote_cards.py
+dashboard/utils/formatting.py
+dashboard/assets/data/
+dashboard/assets/logos/
+dashboard/README.md
+
+# Dashboard data is private by default. Explicit public runtime marts below
+# are the only CSVs intended for the initial public repository.
+data/dashboard/*.csv
+!data/dashboard/58_public_runtime_contract.csv
+!data/dashboard/58_home_frozen_summary.csv
+!data/dashboard/58_validation_summary.csv
+!data/dashboard/58_faq_examples_public.csv
+!data/dashboard/58_voc_display_public.csv
+!data/dashboard/58_voc_population_public.csv
+!data/dashboard/55_v3_faq_methodology_funnel.csv
+!data/dashboard/55_v3_faq_source_summary.csv
+!data/dashboard/55_v3_faq_aspect_glossary.csv
+!data/dashboard/55_v3_faq_limitations.csv
+!data/dashboard/55_v3_faq_score_glossary.csv
+!data/dashboard/55_v4_final_analysis_freeze.csv
+!data/dashboard/56_executive_population_reconciliation.csv
+!data/dashboard/56_executive_brand_comment_summary.csv
+!data/dashboard/56_executive_theme_brand_summary.csv
+!data/dashboard/56_executive_theme_monthly.csv
+!data/dashboard/56_executive_presentation_qa.csv
+!data/dashboard/57_airport_view_summary.csv
+!data/dashboard/57_airport_view_brand_airport.csv
+!data/dashboard/57_airport_view_battlegrounds.csv
+!data/dashboard/57_airport_view_qa.csv
+!data/dashboard/56_voc_qa.csv

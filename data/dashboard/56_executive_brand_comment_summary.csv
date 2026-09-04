@@ -1,0 +1,5 @@
+brand,brand_display,positive_comments,negative_comments,mixed_neutral_comments,unique_comments,positive_share,negative_share,mixed_neutral_share,excluded_no_sentiment_comments,frozen_overall_score_100,frozen_overall_confidence,source_robustness_badge,main_positive_theme,main_positive_aspect,main_pressure_theme,main_pressure_aspect
+AMEX,Amex,138,247,123,508,0.27165354330708663,0.4862204724409449,0.2421259842519685,9,-14.92063492063492,HIGH,SOURCE_SENSITIVE,Food & Beverage,BEVERAGE_BAR,Access & Capacity,CROWDING
+CHASE,Chase,126,118,84,328,0.38414634146341464,0.3597560975609756,0.25609756097560976,8,50.0,HIGH,SOURCE_SENSITIVE,Food & Beverage,BEVERAGE_BAR,Access & Capacity,CROWDING
+CAPITAL_ONE,Capital One,134,36,44,214,0.6261682242990654,0.16822429906542055,0.205607476635514,1,72.93233082706767,HIGH,DIRECTION_ROBUST_MAGNITUDE_SENSITIVE,Food & Beverage,FOOD_QUALITY,No recurring pressure clearly stands out,
+DELTA,Delta,114,20,25,159,0.7169811320754716,0.12578616352201258,0.15723270440251572,6,75.22123893805309,HIGH,INSUFFICIENT_CROSS_SOURCE_SAMPLE,Positive feedback is broad rather than concentrated in one theme,,No recurring pressure clearly stands out,

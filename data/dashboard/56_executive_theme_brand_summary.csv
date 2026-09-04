@@ -1,0 +1,21 @@
+brand,brand_display,executive_theme,positive_comments,negative_comments,mixed_neutral_comments,unique_comments,positive_share,negative_share,mixed_neutral_share,supported_aspect_count,available_aspect_count,strongest_positive_aspect,strongest_positive_score_100,strongest_positive_comments,strongest_negative_aspect,strongest_negative_score_100,strongest_negative_comments,competitive_aspect,competitive_position,competitive_gap_pp,primary_insight,secondary_insight,theme_order,brand_order
+AMEX,Amex,General Lounge Experience,99,154,30,283,0.3498233215547703,0.5441696113074205,0.10600706713780919,0,1,,,,,,,,,,General lounge feedback leans negative.,,1,1
+CHASE,Chase,General Lounge Experience,127,34,15,176,0.7215909090909091,0.19318181818181818,0.08522727272727272,0,1,,,,,,,,,,General lounge feedback leans positive.,,1,2
+CAPITAL_ONE,Capital One,General Lounge Experience,106,16,4,126,0.8412698412698413,0.12698412698412698,0.031746031746031744,0,1,,,,,,,,,,General lounge feedback leans positive.,,1,3
+DELTA,Delta,General Lounge Experience,90,9,6,105,0.8571428571428571,0.08571428571428572,0.05714285714285714,0,1,,,,,,,,,,General lounge feedback leans positive.,,1,4
+AMEX,Amex,Access & Capacity,43,153,37,233,0.18454935622317598,0.6566523605150214,0.15879828326180256,4,5,,,,CROWDING,-81.89655172413794,118.0,CROWDING,TRUE_WEAKNESS,-51.20348241720725,Crowding is the clearest pressure point.,Crowding trails sampled peers.,2,1
+CHASE,Chase,Access & Capacity,36,113,19,168,0.21428571428571427,0.6726190476190477,0.1130952380952381,3,5,,,,CROWDING,-67.79661016949152,59.0,WAIT_TIME_QUEUE,TRUE_WEAKNESS,-37.311193875439685,Crowding is the clearest pressure point.,Wait time & queues trails sampled peers.,2,2
+CAPITAL_ONE,Capital One,Access & Capacity,36,25,9,70,0.5142857142857142,0.35714285714285715,0.12857142857142856,1,5,,,,,,,,,,No single subtheme clearly stands out.,,2,3
+DELTA,Delta,Access & Capacity,22,11,5,38,0.5789473684210527,0.2894736842105263,0.13157894736842105,0,5,,,,,,,,,,No single subtheme clearly stands out.,,2,4
+AMEX,Amex,Food & Beverage,80,52,22,154,0.5194805194805194,0.33766233766233766,0.14285714285714285,3,3,BEVERAGE_BAR,57.14285714285714,57.0,,,,,,,Beverage & bar is the strongest positive signal.,,3,1
+CHASE,Chase,Food & Beverage,53,24,7,84,0.6309523809523809,0.2857142857142857,0.08333333333333333,2,3,BEVERAGE_BAR,53.57142857142857,32.0,,,,,,,Beverage & bar is the strongest positive signal.,,3,2
+CAPITAL_ONE,Capital One,Food & Beverage,50,13,10,73,0.684931506849315,0.1780821917808219,0.136986301369863,1,3,FOOD_QUALITY,59.375,62.0,,,,FOOD_QUALITY,TRUE_STRENGTH,32.45192307692308,Food quality is the strongest positive signal.,Food quality is ahead of sampled peers.,3,3
+DELTA,Delta,Food & Beverage,26,12,1,39,0.6666666666666666,0.3076923076923077,0.02564102564102564,0,3,,,,,,,,,,No single subtheme clearly stands out.,,3,4
+AMEX,Amex,Service & Upkeep,25,21,4,50,0.5,0.42,0.08,1,2,STAFF_SERVICE,38.297872340425535,42.0,,,,,,,Staff & service is the strongest positive signal.,,4,1
+CHASE,Chase,Service & Upkeep,17,11,5,33,0.5151515151515151,0.3333333333333333,0.15151515151515152,1,2,,,,,,,,,,No single subtheme clearly stands out.,,4,2
+CAPITAL_ONE,Capital One,Service & Upkeep,16,5,1,22,0.7272727272727273,0.22727272727272727,0.045454545454545456,0,2,,,,,,,,,,No single subtheme clearly stands out.,,4,3
+DELTA,Delta,Service & Upkeep,8,1,0,9,0.8888888888888888,0.1111111111111111,0.0,0,2,,,,,,,,,,No single subtheme clearly stands out.,,4,4
+AMEX,Amex,"Space, Amenities & Convenience",51,77,11,139,0.3669064748201439,0.5539568345323741,0.07913669064748201,2,7,,,,,,,,,,No single subtheme clearly stands out.,,5,1
+CHASE,Chase,"Space, Amenities & Convenience",29,49,12,90,0.32222222222222224,0.5444444444444444,0.13333333333333333,1,7,,,,AMBIENCE_DESIGN,-24.137931034482758,54.0,AMBIENCE_DESIGN,TRUE_WEAKNESS,-28.07493890849851,Ambience & design is the clearest pressure point.,Ambience & design trails sampled peers.,5,2
+CAPITAL_ONE,Capital One,"Space, Amenities & Convenience",36,14,8,58,0.6206896551724138,0.2413793103448276,0.13793103448275862,0,6,,,,,,,,,,No single subtheme clearly stands out.,,5,3
+DELTA,Delta,"Space, Amenities & Convenience",28,10,3,41,0.6829268292682927,0.24390243902439024,0.07317073170731707,0,5,,,,,,,,,,No single subtheme clearly stands out.,,5,4

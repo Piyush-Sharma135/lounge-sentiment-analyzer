@@ -1,0 +1,26 @@
+[project]
+name = "reddit-lounge-sentiment"
+version = "0.1.0"
+description = "Executive Reddit voice-of-customer dashboard for airport lounge experience intelligence."
+readme = "README.md"
+authors = [
+    { name = "Piyush Sharma", email = "picassa240@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "ipykernel>=7.3.0",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.11.1",
+    "numpy>=2.5.2",
+    "openai>=3.5.0",
+    "pandas>=3.0.5",
+    "plotly>=7.0.0",
+    "pyarrow>=25.0.1",
+    "pydantic>=2.13.5",
+    "python-dotenv>=1.2.3",
+    "scikit-learn>=1.9.0",
+    "streamlit>=1.63.0",
+]
+
+[tool.uv]
+package = false

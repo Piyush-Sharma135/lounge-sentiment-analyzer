@@ -1,0 +1,12 @@
+check,status,expected,actual,detail
+population_reconciles_to_frozen_theme_summary,PASS,20,20,Every brand-theme population reproduces the approved comment collapse.
+population_comment_deduplication,PASS,0,0,Each comment contributes at most once to a scope-theme population.
+general_theme_uses_overall_only,PASS,OVERALL_EXPERIENCE only,OVERALL_EXPERIENCE only,General Lounge Experience contains no operational-aspect evidence.
+evidence_slot_comment_deduplication,PASS,0,0,A curated comment appears at most once per brand-theme-sentiment slot.
+evidence_safety_filter,PASS,0,0,"Displayed evidence excludes obvious private data, profanity, and damaged text."
+reddit_link_format,PASS,537,537,Every evidence row has a canonical Reddit comment-thread URL.
+frozen_sentiment_preserved,PASS,537,537,No evidence sentiment is classified at runtime.
+display_quality_gate_preserves_brand_theme_states,PASS,every brand-theme state retains displayable evidence,20,The stricter display gate preserves every supported brand-theme state without surfacing weak excerpts.
+expanded_context_safety,PASS,0,0,Every longer approved excerpt remains safe for executive display.
+compare_brand_core_quote_coverage,PASS,positive and negative evidence for every brand-theme,complete,Compare Brand Voices has core qualitative evidence for all brand-theme pairs.
+approved_five_theme_mapping,PASS,five approved themes,5,Evidence and population use the Executive Overview taxonomy exactly.

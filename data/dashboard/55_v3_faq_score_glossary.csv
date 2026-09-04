@@ -1,0 +1,7 @@
+metric,definition,scale_or_use
+Overall Experience Sentiment,Uses only OVERALL_EXPERIENCE observations.,-100 to +100
+Attribute Experience Index,Comment-weighted mean across specific product/operational aspects; OVERALL_EXPERIENCE excluded.,-100 to +100
+Aspect Net Sentiment,"Mean of +1 POSITIVE, -1 NEGATIVE, 0 MIXED/NEUTRAL; NO_SENTIMENT excluded.",-100 to +100
+Competitive Gap,"Entity metric minus peer metric for the same aspect; at airports, peers must exist at the same airport with sufficient sample.",percentage points
+Primary Analysis,COMMENT_EXPLICIT attribution only; drives headline results.,default
+Sensitivity Analysis,COMMENT_EXPLICIT plus TITLE_RESOLVED; used to test attribution robustness.,robustness

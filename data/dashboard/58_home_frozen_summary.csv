@@ -1,0 +1,11 @@
+summary_group,metric,value
+production_population,historical_stage1_experience_candidates,17742
+production_population,ytd_candidate_rows,5850
+stage2a1,input_ytd_candidates,5850.0
+stage2a1,usable_rows,3696.0
+stage2b_population,stage2A2_total_rows,3696
+stage2b_population,stage2B_api_candidate_comments,2215
+stage2b_freeze,production_comments,2215
+stage2b_freeze,production_observations,6003
+stage2b_freeze,final_clean_observations,5997
+stage2b_freeze,material_evidence_failures,6

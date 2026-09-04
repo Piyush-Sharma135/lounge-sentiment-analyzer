@@ -1,0 +1,7 @@
+dataset_role,canonical_file,usage
+FAQ_FUNNEL,55_v3_faq_methodology_funnel.csv,Public methodology funnel
+FAQ_ASPECT_GLOSSARY,55_v3_faq_aspect_glossary.csv,Public detailed-aspect glossary
+FAQ_SOURCES,55_v3_faq_source_summary.csv,Public aggregate source summary
+FAQ_LIMITATIONS,55_v3_faq_limitations.csv,Public methodology limitations
+FAQ_EXAMPLES,58_faq_examples_public.csv,Approved public methodology examples only
+FAQ_SCORE_GLOSSARY,55_v3_faq_score_glossary.csv,Public score glossary

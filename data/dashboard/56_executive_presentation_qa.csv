@@ -1,0 +1,30 @@
+check,status,expected,actual,detail
+frozen_five_theme_mapping,PASS,approved five-theme presentation mapping,approved,Executive grouping remains presentation-only and includes all 17 frozen detailed aspects once.
+theme_summary_rows,PASS,20,20,Complete four-brand by five-theme matrix.
+theme_summary_identity,PASS,20,20,Every theme cell passes the comment-count identity.
+theme_comment_deduplication,PASS,0,0,No comment appears more than once within a brand-theme group.
+overall_comment_deduplication,PASS,0,0,Overall Experience contributes at most once per brand-comment.
+overall_count_amex,PASS,"(283, 99, 154, 30)","(283, 99, 154, 30)",General Lounge Experience reproduces the approved Overall Experience population.
+overall_count_chase,PASS,"(176, 127, 34, 15)","(176, 127, 34, 15)",General Lounge Experience reproduces the approved Overall Experience population.
+overall_count_capital_one,PASS,"(126, 106, 16, 4)","(126, 106, 16, 4)",General Lounge Experience reproduces the approved Overall Experience population.
+overall_count_delta,PASS,"(105, 90, 9, 6)","(105, 90, 9, 6)",General Lounge Experience reproduces the approved Overall Experience population.
+brand_comment_deduplication,PASS,0,0,No comment appears more than once within a brand's all-experience total.
+brand_summary_identity,PASS,all rows,4,Positive + negative + mixed/neutral equals unique comments.
+brand_no_sentiment_exclusions,PASS,24,24,Only brand-comment groups containing no sentiment-bearing observation are excluded.
+stage2b_population_total,PASS,2215,2215,Frozen Stage 2B production population reconciles to the approved total.
+eligible_comment_preservation,PASS,0,0,No eligible four-brand source comment is lost in the presentation collapse.
+brand_summary_reconciles_to_valid_groups,PASS,1209,1209,Brand-card totals reconcile to unique qualifying brand-comment groups.
+outside_population_reason_identity,PASS,1227,1227,Mutually exclusive outside-population reasons reconcile to the Stage 2B remainder.
+brand_theme_union_amex,PASS,508,508,The five sentiment-bearing theme sets reconcile exactly to the brand card.
+brand_theme_membership_amex,PASS,859,859,Theme membership frequencies reconcile to summed theme appearances.
+brand_theme_union_chase,PASS,328,328,The five sentiment-bearing theme sets reconcile exactly to the brand card.
+brand_theme_membership_chase,PASS,551,551,Theme membership frequencies reconcile to summed theme appearances.
+brand_theme_union_capital_one,PASS,214,214,The five sentiment-bearing theme sets reconcile exactly to the brand card.
+brand_theme_membership_capital_one,PASS,349,349,Theme membership frequencies reconcile to summed theme appearances.
+brand_theme_union_delta,PASS,159,159,The five sentiment-bearing theme sets reconcile exactly to the brand card.
+brand_theme_membership_delta,PASS,232,232,Theme membership frequencies reconcile to summed theme appearances.
+monthly_theme_rows,PASS,160,160,"Four brands by five themes by eight months, including empty cells."
+monthly_theme_identity,PASS,160,160,Every monthly cell passes the comment-count identity.
+monthly_comment_deduplication,PASS,0,0,No comment appears more than once within a brand-theme-month group.
+theme_sentiment_bearing_groups,PASS,1991,1991,Theme output totals reconcile to collapsed comment groups.
+monthly_sentiment_bearing_groups,PASS,1991,1991,Monthly output totals reconcile to collapsed comment groups.

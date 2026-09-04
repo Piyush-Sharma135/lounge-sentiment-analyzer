@@ -1,0 +1,20 @@
+aspect,definition
+CROWDING,"Actual occupancy, congestion, packed/full conditions."
+WAIT_TIME_QUEUE,"Waiting or queues for entry, seating, food/bar or service."
+SEATING_AVAILABILITY,"Ability to find a seat, table or usable space."
+FOOD_QUALITY,"Taste, freshness, preparation and perceived food quality."
+FOOD_AVAILABILITY,"Stocking, replenishment, sold-out or missing food."
+BEVERAGE_BAR,"Drinks, cocktails, bar quality, selection and bar service."
+STAFF_SERVICE,"Friendliness, professionalism, helpfulness and responsiveness."
+CLEANLINESS,"Hygiene, trash, dirty tables, bathrooms and upkeep."
+AMBIENCE_DESIGN,"Atmosphere, decor, layout, comfort, noise and aesthetics."
+AMENITIES,"Showers, restrooms, nap rooms, spa, lockers, charging and facilities."
+WIFI_WORKSPACE,"Wi-Fi, desks, outlets and ability to work."
+ACCESS_EXPERIENCE,"Experienced entry success, denial, friction or guest access."
+RESERVATION_SYSTEM,"Reservation, waitlist, digital queue or pre-booking experience."
+LOCATION_CONVENIENCE,Terminal/gate convenience and ease of reaching the lounge.
+OPERATING_HOURS,Experienced impact of opening/closing or limited hours.
+VALUE_FOR_MONEY,Value of the lounge experience relative to cost/benefit.
+FAMILY_CHILDREN,Family/children-related lounge experience.
+OVERALL_EXPERIENCE,"Broad lounge-level judgment, deliberately separate from specific attributes."
+OTHER,Meaningful experience attribute not captured elsewhere.

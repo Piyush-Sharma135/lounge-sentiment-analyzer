@@ -1,0 +1,23 @@
+metric,value,definition
+stage2b_total_comments,2215,Distinct comments in the frozen Stage 2B production input.
+primary_cohort_comments,1533,Comments assigned to the approved primary comment-explicit cohort.
+primary_analysis_comments,1523,Distinct comments present in the frozen primary observation table.
+four_brand_sentiment_union,988,Distinct sentiment-bearing comments contributing to at least one headline brand.
+headline_issuer_attributed_comments,1566,Stage 2B comments attributed to at least one headline issuer before cohort and sentiment filtering.
+amex_brand_comments,508,Distinct qualifying Amex brand-comment groups.
+chase_brand_comments,328,Distinct qualifying Chase brand-comment groups.
+capital_one_brand_comments,214,Distinct qualifying Capital One brand-comment groups.
+delta_brand_comments,159,Distinct qualifying Delta brand-comment groups.
+multi_brand_comments,192,Executive-union comments contributing to two or more headline brands.
+issuer_unknown_comments,857,Stage 2B comments whose attribution includes issuer UNKNOWN; may also include a known issuer.
+unknown_issuer_known_network_comments,570,Stage 2B comments with issuer UNKNOWN only and at least one known lounge network.
+issuer_other_comments,115,Stage 2B comments whose attribution includes issuer OTHER; may overlap a headline issuer.
+only_nonheadline_comments,649,Stage 2B comments with no headline issuer attribution.
+no_sentiment_excluded_comments,15,Distinct headline-brand candidates whose relevant observations are all NO_SENTIMENT.
+no_sentiment_excluded_brand_groups,24,Headline brand-comment groups whose relevant observations are all NO_SENTIMENT.
+eligible_comments_lost_in_presentation,0,Directly eligible source comments absent after conservative presentation collapse.
+outside_executive_union,1227,Stage 2B comments outside the four-brand sentiment-bearing executive union.
+outside_non_primary_cohort,682,Comments outside the approved primary cohort.
+outside_primary_without_headline_issuer,510,Primary-cohort comments without a headline issuer attribution.
+outside_primary_without_qualifying_observation,20,Primary headline-attributed comments without a relevant headline experience observation.
+outside_primary_only_no_sentiment,15,Primary headline comments excluded because all relevant observations are NO_SENTIMENT.
