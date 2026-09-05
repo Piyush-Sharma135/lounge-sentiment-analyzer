@@ -7,6 +7,7 @@ from html import escape
 import pandas as pd
 import streamlit as st
 
+from utils.constants import ENTITY_SHORT_NAMES
 from utils.html import compact_html
 from utils.validation import DataContractError, require_columns, require_unique
 
@@ -66,22 +67,65 @@ def render_insights(
             raise DataContractError("Dynamic insights require dropdown_brand")
         selected = selected.loc[selected["dropdown_brand"].eq(dropdown_brand)]
     selected = selected.sort_values("display_order")
+    is_brand_comparison = page == "Executive Overview" and section == "Brand-level signals"
     cards = []
     for _, row in selected.iterrows():
+        brand = str(row.get("primary_brand", ""))
+        brand_class = (
+            f" brand-{brand.lower().replace('_', '-')}"
+            if is_brand_comparison and brand
+            else ""
+        )
+        label = ENTITY_SHORT_NAMES.get(brand, brand)
+        label_markup = (
+            f'<div class="leadership-insight-label">{escape(label)}</div>'
+            if is_brand_comparison and label
+            else ""
+        )
+        if is_brand_comparison:
+            pressure_text = row.get("pressure_text")
+            if pd.isna(pressure_text) or not str(pressure_text).strip():
+                raise DataContractError("Brand insights require a pressure_text value")
+            body_markup = compact_html(
+                f"""
+                <ul class="leadership-insight-bullets">
+                    <li class="positive-signal">
+                        <strong>Positive signal</strong>
+                        <span>{escape(str(row['evidence_text']))}</span>
+                    </li>
+                    <li class="pressure-signal">
+                        <strong>Pressure signal</strong>
+                        <span>{escape(str(pressure_text))}</span>
+                    </li>
+                    <li class="overall-read">
+                        <strong>Overall read</strong>
+                        <span>{escape(str(row['implication_text']))}</span>
+                    </li>
+                </ul>
+                """
+            )
+        else:
+            body_markup = compact_html(
+                f"""
+                <p class="leadership-insight-evidence">{escape(str(row['evidence_text']))}</p>
+                <p class="leadership-insight-action">{escape(str(row['implication_text']))}</p>
+                """
+            )
         cards.append(
             compact_html(
                 f"""
-                <article class="leadership-insight-card">
+                <article class="leadership-insight-card{brand_class}">
+                    {label_markup}
                     <h3>{escape(str(row['headline']))}</h3>
-                    <p class="leadership-insight-evidence">{escape(str(row['evidence_text']))}</p>
-                    <p class="leadership-insight-action">{escape(str(row['implication_text']))}</p>
+                    {body_markup}
                 </article>
                 """
             )
         )
     if cards:
+        grid_class = "leadership-insight-grid brand-comparison" if is_brand_comparison else "leadership-insight-grid"
         st.markdown(
-            f'<div class="leadership-insight-grid">{"".join(cards)}</div>',
+            f'<div class="{grid_class}">{"".join(cards)}</div>',
             unsafe_allow_html=True,
         )
     return len(cards)
