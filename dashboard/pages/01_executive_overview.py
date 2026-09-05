@@ -7,6 +7,7 @@ from html import escape
 import pandas as pd
 import streamlit as st
 
+from components.executive_insights import render_insights, validate_insights
 from components.layout import render_page_header, render_section_heading
 from utils.constants import ENTITY_COLORS, ENTITY_SHORT_NAMES, HEADLINE_ISSUERS
 from utils.data_loader import load_presentation_dataset
@@ -69,6 +70,8 @@ def _load_and_validate() -> tuple[pd.DataFrame, ...]:
     themes = load_presentation_dataset("EXECUTIVE_THEME_BRANDS")
     monthly = load_presentation_dataset("EXECUTIVE_THEME_MONTHLY")
     qa = load_presentation_dataset("EXECUTIVE_PRESENTATION_QA")
+    insights = load_presentation_dataset("EXECUTIVE_INSIGHTS")
+    insight_qa = load_presentation_dataset("EXECUTIVE_INSIGHT_QA")
 
     count_columns = [
         "unique_comments",
@@ -128,7 +131,8 @@ def _load_and_validate() -> tuple[pd.DataFrame, ...]:
     if not qa["status"].eq("PASS").all():
         failed = qa.loc[qa["status"].ne("PASS"), "check"].astype(str).tolist()
         raise DataContractError(f"Presentation QA failed: {', '.join(failed)}")
-    return brands, themes, monthly, qa
+    validate_insights(insights, insight_qa)
+    return brands, themes, monthly, qa, insights, insight_qa
 
 
 def _safe_text(value: object) -> str:
@@ -306,7 +310,7 @@ def _render_heat_strip(monthly: pd.DataFrame, theme: str, subdued: bool) -> None
 
 
 try:
-    brand_summary, theme_summary, monthly, qa = _load_and_validate()
+    brand_summary, theme_summary, monthly, qa, insights, insight_qa = _load_and_validate()
 except (FileNotFoundError, KeyError, ValueError, DataContractError) as error:
     st.error(f"The Executive Overview cannot load its presentation data. {error}")
     st.stop()
@@ -321,29 +325,38 @@ st.markdown(
 )
 
 render_section_heading(
-    "Brand experience snapshot",
-    "Qualifying Reddit comments with sentiment-bearing lounge experience; each comment is counted once per brand.",
+    "Key Insights for Amex",
+    "The strongest Amex-relevant patterns in the available Reddit feedback.",
 )
+render_insights(insights, page="Executive Overview", section="Key insights")
+
+render_section_heading(
+    "Brand Experience Snapshot",
+    "What the overall distribution of qualifying comments suggests across the four brands.",
+)
+render_insights(insights, page="Executive Overview", section="Brand-level signals")
 st.markdown(
-    '<p class="exec-secondary-note">Brand counts are not additive because some Reddit comments discuss more than one brand.</p>',
+    '<p class="exec-secondary-note">Supporting data: qualifying Reddit comments with sentiment-bearing lounge experience. Each comment is counted once per brand; totals are not additive because some comments discuss more than one brand.</p>',
     unsafe_allow_html=True,
 )
 _render_brand_cards(brand_summary)
 
 render_section_heading(
-    "Lounge experience at a glance",
-    "Overall perception first, followed by four broad themes shaping that experience.",
+    "Lounge Experience at a Glance",
+    "The clearest theme-level patterns, followed by the five-theme comparison.",
 )
+render_insights(insights, page="Executive Overview", section="Theme insights")
 st.markdown(
-    '<p class="exec-secondary-note">Theme counts are also non-additive because one Reddit comment can discuss more than one part of the lounge experience.</p>',
+    '<p class="exec-secondary-note">Supporting data: overall perception first, followed by four broad themes. Counts are not additive because one comment can discuss more than one part of the experience.</p>',
     unsafe_allow_html=True,
 )
 _render_theme_matrix(theme_summary)
 
 render_section_heading(
-    "How feedback has evolved",
-    "Monthly feedback direction across the same five lounge-experience themes.",
+    "Sentiment Trend Over Time",
+    "The most meaningful monthly patterns, followed by the supporting heatmap-style tables.",
 )
+render_insights(insights, page="Executive Overview", section="Trend insights")
 st.markdown(
     compact_html(
         """

@@ -36,21 +36,55 @@
 }
 
 .method-jump-nav > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.34rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.42rem;
 }
 
 .method-jump-nav a {
-  padding: 0.28rem 0.48rem;
+  display: flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0.42rem 0.58rem;
   border: 1px solid #d5e1ee;
-  border-radius: 999px;
+  border-radius: 9px;
   background: #fff;
   color: #315d91;
   font-size: 0.59rem;
   font-weight: 730;
   line-height: 1.25;
   text-decoration: none;
+}
+
+.method-rule-box {
+  margin: 0.3rem 0 0.85rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid #d7e2ef;
+  border-left: 4px solid #4f78b2;
+  border-radius: 11px;
+  background: #f7fafe;
+  color: #425570;
+}
+
+.method-rule-box ul {
+  margin: 0;
+  padding-left: 1.15rem;
+}
+
+.method-rule-box li {
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.method-rule-box li + li { margin-top: 0.32rem; }
+.method-rule-box strong { color: #263d5c; }
+.method-rule-box.interpretation { border-left-color: #c48a28; background: #fffaf0; }
+.method-theme-box small {
+  display: block;
+  margin-top: 0.08rem;
+  color: #607087;
+  font-size: 0.64rem;
+  line-height: 1.45;
 }
 
 .method-jump-nav a:hover {
@@ -66,9 +100,9 @@
   gap: 0.65rem;
 }
 
-.method-faq-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 1.05rem; }
+.method-faq-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 1.05rem; }
 .method-info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 0.75rem; }
-.method-metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0.35rem 0 0.85rem; }
+.method-metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0.35rem 0 0.85rem; }
 .method-glossary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
 .method-faq-card,
@@ -255,7 +289,7 @@
   .method-faq-card,
   .method-info-card { min-height: 0; }
   .method-funnel-stage { grid-template-columns: 86px minmax(0, 1fr); }
-  .method-jump-nav a { flex: 1 1 calc(50% - 0.34rem); }
+  .method-jump-nav > div { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-width: 520px) {
@@ -263,5 +297,4 @@
   .method-glossary-grid { grid-template-columns: minmax(0, 1fr); }
   .method-metric-card,
   .method-glossary-card { min-height: 0; }
-  .method-jump-nav a { flex-basis: 100%; }
 }

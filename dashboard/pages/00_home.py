@@ -10,7 +10,6 @@ import streamlit as st
 
 from components.home import (
     render_home_navigation_card,
-    render_methodology_funnel,
     render_snapshot_cards,
     render_source_ranking,
 )
@@ -39,16 +38,16 @@ THEME_CARDS = (
     ("General Lounge Experience", "Overall impression of the lounge experience"),
     (
         "Access & Capacity",
-        "Crowding · Wait time & queues · Seating · Access · Reservations",
+        "Crowding, wait time & queues, seating, access, reservations",
     ),
     (
         "Food & Beverage",
-        "Food quality · Food availability · Beverage & bar",
+        "Food quality, food availability, beverage & bar",
     ),
-    ("Service & Upkeep", "Staff & service · Cleanliness"),
+    ("Service & Upkeep", "Staff & service, cleanliness"),
     (
         "Space, Amenities & Convenience",
-        "Ambience · Amenities · Wi-Fi/workspace · Family/children · Location · Hours · Value",
+        "Ambience, amenities, Wi-Fi/workspace, family/children, location, hours, value",
     ),
 )
 
@@ -266,7 +265,7 @@ navigation_cards = (
         "methodology",
         "04",
         "How was the analysis built and how should I interpret it?",
-        "See the full analysis funnel, classification approach, counting rules, validation, attribution logic and limitations.",
+        "See the source and scope, filtering, attribution, theme, sentiment and counting rules in plain English.",
         "pages/07_methodology_faq.py",
         "Read Methodology",
     ),
@@ -284,7 +283,10 @@ with st.container(key="home-navigation-grid"):
                 cta=card[5],
             )
 
-render_section_heading("What is behind the dashboard?")
+render_section_heading(
+    "About the data",
+    "A concise view of the evidence behind the dashboard.",
+)
 render_snapshot_cards(
     [
         {
@@ -293,14 +295,9 @@ render_snapshot_cards(
             "support": "Comments collected across lounge-related Reddit discussions before experience filtering.",
         },
         {
-            "value": f"{counts['experience_bearing']:,}",
-            "label": "Comments with lounge-experience feedback",
-            "support": "Comments describing a direct, second-hand or broader lounge experience.",
-        },
-        {
-            "value": f"{counts['known_comments']:,}",
-            "label": "Comments taken into detailed analysis",
-            "support": "Comments with enough supported brand or lounge context for detailed experience extraction.",
+            "value": f"{counts['analysis_window']:,}",
+            "label": "Relevant comments in scope",
+            "support": "Comments containing lounge-experience feedback during Jan–Aug 2026.",
         },
         {
             "value": f"{counts['clean_observations']:,}",
@@ -310,23 +307,20 @@ render_snapshot_cards(
         },
     ]
 )
-
-render_section_heading("How the dataset was narrowed")
-render_methodology_funnel(counts)
+st.markdown(
+    '<div class="home-inline-note home-data-note">Comments were filtered for genuine lounge experience, usable detail and defensible brand or lounge attribution before detailed experience observations were extracted.</div>',
+    unsafe_allow_html=True,
+)
 
 render_section_heading("What parts of the lounge experience are analyzed?")
 theme_markup = "".join(
-    compact_html(
-        f"""
-        <article class="home-theme-card">
-            <h3>{escape(title)}</h3>
-            <p>{escape(description)}</p>
-        </article>
-        """
-    )
+    f"<li><strong>{escape(title)}</strong><ul><li>{escape(description)}</li></ul></li>"
     for title, description in THEME_CARDS
 )
-st.markdown(f'<div class="home-theme-grid">{theme_markup}</div>', unsafe_allow_html=True)
+st.markdown(
+    f'<div class="home-theme-box"><ul>{theme_markup}</ul></div>',
+    unsafe_allow_html=True,
+)
 st.markdown(
     '<div class="home-inline-note">These are executive presentation groups. The underlying analysis retains the detailed experience areas separately.</div>',
     unsafe_allow_html=True,
@@ -336,19 +330,19 @@ render_section_heading("How to read the numbers")
 reading_cards = (
     (
         "One comment is counted once",
-        "Counts refer to unique qualifying Reddit comments in the displayed view.",
+        "One comment is counted once within the relevant displayed view.",
     ),
     (
-        "Signals are combined within each view",
-        "Each view combines the eligible experience signals within a comment before counting that comment once.",
-    ),
-    (
-        "Counts can overlap",
-        "One Reddit comment can discuss more than one brand or more than one part of the lounge experience, so brand and theme counts may overlap.",
+        "Comments can contribute to more than one view",
+        "A comment may contribute to more than one brand or experience theme.",
     ),
     (
         "Quotes provide context",
-        "Voice of Customer comments illustrate measured patterns. The number of quotes displayed does not indicate prevalence.",
+        "Quotes illustrate the measured patterns but do not represent prevalence by themselves.",
+    ),
+    (
+        "Reddit is directional",
+        "Discussion volume should not be interpreted as customer population, market share or brand preference.",
     ),
 )
 reading_markup = "".join(
@@ -362,14 +356,6 @@ reading_markup = "".join(
     for title, body in reading_cards
 )
 st.markdown(f'<div class="home-interpret-grid">{reading_markup}</div>', unsafe_allow_html=True)
-with st.expander("About the analytical sentiment score", expanded=False):
-    st.markdown(
-        "Some deeper analytical calculations use a directional sentiment score from -100 to +100. "
-        "It supports ranking, peer comparison and statistical testing, while the executive pages "
-        "primarily show comment composition because it is easier to interpret directly.\n\n"
-        "See FAQ / Methodology for the exact formula and confidence methodology."
-    )
-
 render_section_heading("Brands covered")
 brand_markup = "".join(
     f'<span>{escape(ENTITY_SHORT_NAMES[brand])}</span>' for brand in HEADLINE_ISSUERS
@@ -394,33 +380,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-render_section_heading("Primary analytical unit")
-st.markdown(
-    compact_html(
-        """
-        <div class="home-scope-card">
-            <strong>Individual Reddit comments</strong>
-            <p>The dashboard primarily analyzes individual Reddit comments. Thread titles are used as supporting context when needed. Original post bodies were not systematically analyzed as separate experience units.</p>
-            <small>See FAQ / Methodology for examples of comment-only and title-resolved attribution.</small>
-        </div>
-        """
-    ),
-    unsafe_allow_html=True,
-)
-
-render_section_heading("Before interpreting the results")
-cautions = (
-    "Reddit provides directional customer feedback, not a representative customer survey.",
-    "More Reddit discussion does not mean more customers or greater market share.",
-    "Missing airports indicate insufficient supported evidence, not neutral performance or the absence of a lounge.",
-    "Monthly analysis uses the parent Reddit post date because individual comment timestamps were unavailable.",
-    "UNKNOWN is preferred to assigning feedback to the wrong brand, lounge or airport.",
-)
-st.markdown(
-    f'<ul class="home-caution-list">{"".join(f"<li>{escape(item)}</li>" for item in cautions)}</ul>',
-    unsafe_allow_html=True,
-)
-st.caption("See FAQ / Methodology for the full methodology, validation and limitations.")
 st.page_link(
     "pages/07_methodology_faq.py",
     label="Open FAQ / Methodology",

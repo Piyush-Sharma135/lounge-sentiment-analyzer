@@ -186,6 +186,15 @@
   cursor: help;
 }
 
+.airport-exec-driver-direction {
+  font-style: normal;
+  font-weight: 800;
+}
+
+.airport-exec-driver-direction.positive { color: #14785a; }
+.airport-exec-driver-direction.negative { color: #bc3f4a; }
+.airport-exec-driver-direction.neutral { color: #7c8798; }
+
 .airport-exec-yes,
 .airport-exec-no {
   display: inline-flex;
@@ -201,7 +210,7 @@
 
 .airport-exec-watch-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.68rem;
   margin-bottom: 1.25rem;
 }
@@ -336,7 +345,7 @@
 
 .airport-exec-battle-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(315px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.72rem;
   margin-bottom: 1.3rem;
 }
@@ -444,6 +453,73 @@
   background: rgba(255, 255, 255, 0.9);
 }
 
+.airport-evidence-block {
+  margin: 0.15rem 0 1.2rem;
+}
+
+.airport-evidence-label {
+  margin-bottom: 0.55rem;
+  color: #33445e;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.airport-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.72rem;
+}
+
+.airport-evidence-card {
+  min-width: 0;
+  padding: 0.82rem 0.9rem;
+  border: 1px solid #dce3ec;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(24, 42, 70, 0.04);
+}
+
+.airport-evidence-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: #33445e;
+  font-size: 0.62rem;
+}
+
+.airport-evidence-meta span {
+  font-weight: 750;
+}
+
+.airport-evidence-meta .positive { color: #168461; }
+.airport-evidence-meta .negative { color: #b73b45; }
+.airport-evidence-meta .mixed-neutral { color: #6f7b8f; }
+
+.airport-evidence-card blockquote {
+  margin: 0.48rem 0 0.58rem;
+  color: #283852;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.airport-evidence-card a {
+  color: #2856a5;
+  font-size: 0.63rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.airport-evidence-card a:hover { text-decoration: underline; }
+
+.airport-evidence-block > p {
+  margin: 0.45rem 0 0;
+  color: #6d788b;
+  font-size: 0.6rem;
+  line-height: 1.4;
+}
+
 @media (max-width: 900px) {
   .airport-exec-summary { grid-template-columns: 1fr; }
   .airport-exec-fact { min-height: 0; }
@@ -457,5 +533,59 @@
 @media (max-width: 650px) {
   .airport-exec-watch-grid,
   .airport-exec-battle-grid { grid-template-columns: 1fr; }
+  .airport-evidence-grid { grid-template-columns: 1fr; }
   .airport-exec-map-legend { align-items: flex-start; flex-direction: column; gap: 0.3rem; }
+}
+/* Auditable executive insight layer */
+.leadership-insight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 0.1rem 0 0.85rem;
+}
+
+.leadership-insight-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dbe3ef;
+  border-top: 3px solid #2856a5;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+  padding: 1rem 1.05rem;
+  min-height: 11.5rem;
+  box-shadow: 0 5px 16px rgba(24, 43, 77, 0.055);
+}
+
+.leadership-insight-card h3 {
+  color: #19263d;
+  font-size: 1.03rem;
+  line-height: 1.32;
+  min-height: 4.1rem;
+  margin: 0 0 0.55rem;
+}
+
+.leadership-insight-card p {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.48;
+}
+
+.leadership-insight-evidence {
+  color: #46546a;
+  flex: 1 1 auto;
+}
+.leadership-insight-action {
+  color: #25334a;
+  border-top: 1px solid #e3e9f2;
+  margin-top: 0.7rem !important;
+  min-height: 6.2rem;
+  padding-top: 0.65rem;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .leadership-insight-grid { grid-template-columns: 1fr; }
+  .leadership-insight-card { min-height: 0; }
+  .leadership-insight-card h3 { min-height: 0; }
+  .leadership-insight-action { min-height: 0; }
 }

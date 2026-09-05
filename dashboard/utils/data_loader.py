@@ -19,6 +19,12 @@ PRESENTATION_FILES = {
     "EXECUTIVE_THEME_BRANDS": "56_executive_theme_brand_summary.csv",
     "EXECUTIVE_THEME_MONTHLY": "56_executive_theme_monthly.csv",
     "EXECUTIVE_PRESENTATION_QA": "56_executive_presentation_qa.csv",
+    "EXECUTIVE_INSIGHTS": "59_executive_insights.csv",
+    "EXECUTIVE_INSIGHT_QA": "59_executive_insight_qa.csv",
+    "AIRPORT_DYNAMIC_INSIGHTS": "60_airport_dynamic_insights.csv",
+    "AIRPORT_DYNAMIC_INSIGHT_QA": "60_airport_dynamic_insight_qa.csv",
+    "AIRPORT_REPRESENTATIVE_COMMENTS": "61_airport_representative_comments.csv",
+    "AIRPORT_REPRESENTATIVE_COMMENT_QA": "61_airport_representative_comment_qa.csv",
 }
 
 

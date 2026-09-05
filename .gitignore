@@ -74,6 +74,10 @@ dashboard/README.md
 data/dashboard/*.csv
 !data/dashboard/58_public_runtime_contract.csv
 !data/dashboard/58_home_frozen_summary.csv
+!data/dashboard/59_executive_insights.csv
+!data/dashboard/59_executive_insight_qa.csv
+!data/dashboard/60_airport_dynamic_insights.csv
+!data/dashboard/60_airport_dynamic_insight_qa.csv
 !data/dashboard/58_validation_summary.csv
 !data/dashboard/58_faq_examples_public.csv
 !data/dashboard/58_voc_display_public.csv
@@ -94,3 +98,5 @@ data/dashboard/*.csv
 !data/dashboard/57_airport_view_battlegrounds.csv
 !data/dashboard/57_airport_view_qa.csv
 !data/dashboard/56_voc_qa.csv
+!data/dashboard/61_airport_representative_comments.csv
+!data/dashboard/61_airport_representative_comment_qa.csv

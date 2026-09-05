@@ -165,7 +165,7 @@ def render_example_card(
                 <blockquote>{escape(comment)}</blockquote>
                 <p>{escape(explanation)}</p>
                 <ul>{mapping_markup}</ul>
-                <a href="{escape(url)}" target="_blank" rel="noopener noreferrer">Open Reddit source ↗</a>
+                <a href="{escape(url)}" target="_blank" rel="noopener noreferrer">View Reddit post ↗</a>
             </article>
             """
         ),

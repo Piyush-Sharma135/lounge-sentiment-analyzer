@@ -484,3 +484,65 @@
   .exec-heat-cell { height: 25px; font-size: 0.47rem; }
   .exec-thin-evidence-note { align-items: flex-start; flex-direction: column; gap: 0.2rem; }
 }
+/* Auditable executive insight layer */
+.leadership-insight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 0.1rem 0 0.4rem;
+}
+
+.leadership-insight-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dbe3ef;
+  border-top: 3px solid #2856a5;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+  padding: 1rem 1.05rem;
+  min-height: 11.5rem;
+  box-shadow: 0 5px 16px rgba(24, 43, 77, 0.055);
+}
+
+.leadership-insight-card h3 {
+  color: #19263d;
+  font-size: 1.03rem;
+  line-height: 1.32;
+  min-height: 4.1rem;
+  margin: 0 0 0.55rem;
+}
+
+.exec-pair-label {
+  margin: -0.62rem 0 0.62rem;
+  color: #315b91;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.leadership-insight-card p {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.48;
+}
+
+.leadership-insight-evidence {
+  color: #46546a;
+  flex: 1 1 auto;
+}
+.leadership-insight-action {
+  color: #25334a;
+  border-top: 1px solid #e3e9f2;
+  margin-top: 0.7rem !important;
+  min-height: 6.2rem;
+  padding-top: 0.65rem;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .leadership-insight-grid { grid-template-columns: 1fr; }
+  .leadership-insight-card { min-height: 0; }
+  .leadership-insight-card h3 { min-height: 0; }
+  .leadership-insight-action { min-height: 0; }
+}

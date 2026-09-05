@@ -27,8 +27,17 @@
 }
 
 .home-kpi-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-bottom: 1.3rem;
+}
+
+.home-data-note {
+  max-width: none;
+  padding: 0.72rem 0.85rem;
+  border-left: 3px solid #5579ad;
+  border-radius: 10px;
+  background: #f6f9fd;
+  color: #465b78;
 }
 
 .home-kpi-card {
@@ -88,37 +97,29 @@
   margin: 0.62rem auto 1.3rem;
 }
 
-.home-theme-grid {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0.58rem;
+.home-theme-box {
+  margin: 0.3rem 0 0.85rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid #d7e2ef;
+  border-left: 4px solid #4f78b2;
+  border-radius: 11px;
+  background: #f7fafe;
+  color: #425570;
 }
 
-.home-theme-card {
-  grid-column: span 2;
-  min-width: 0;
-  padding: 0.78rem;
-  border: 1px solid #dce4ee;
-  border-radius: 12px;
-  background: linear-gradient(145deg, #fff, #f7f9fc);
+.home-theme-box > ul { margin: 0; padding-left: 1.15rem; }
+.home-theme-box > ul > li { font-size: 0.68rem; line-height: 1.5; }
+.home-theme-box > ul > li + li { margin-top: 0.32rem; }
+.home-theme-box strong { color: #263d5c; }
+.home-theme-box li ul {
+  margin: 0.04rem 0 0;
+  padding-left: 1rem;
 }
-
-.home-theme-card:nth-child(n + 4) {
-  grid-column: span 3;
-}
-
-.home-theme-card h3 {
-  margin: 0;
-  color: #243955;
-  font-size: 0.76rem;
-  line-height: 1.32;
-}
-
-.home-theme-card p {
-  margin: 0.38rem 0 0;
-  color: #647187;
+.home-theme-box li li {
+  margin-top: 0.08rem;
+  color: #607087;
   font-size: 0.64rem;
-  line-height: 1.48;
+  line-height: 1.45;
 }
 
 .home-interpret-grid {
@@ -204,18 +205,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .home-theme-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .home-theme-card,
-  .home-theme-card:nth-child(n + 4) {
-    grid-column: auto;
-  }
-
-  .home-theme-card:last-child {
-    grid-column: 1 / -1;
-  }
 }
 
 @media (max-width: 700px) {
@@ -245,14 +234,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .home-theme-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .home-theme-card:last-child {
-    grid-column: auto;
-  }
-
   .home-kpi-card,
   .home-interpret-card {
     min-height: 0;
@@ -272,7 +253,6 @@
 
 @media (max-width: 520px) {
   .home-kpi-grid,
-  .home-theme-grid,
   .home-brand-set,
   .home-interpret-grid {
     grid-template-columns: minmax(0, 1fr);

@@ -10,9 +10,10 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from components.executive_insights import render_insights, validate_insights
 from components.layout import render_page_header, render_section_heading
 from utils.constants import DATA_DIR, ENTITY_SHORT_NAMES, HEADLINE_ISSUERS
-from utils.data_loader import load_csv
+from utils.data_loader import load_csv, load_presentation_dataset
 from utils.html import compact_html
 from utils.styling import apply_base_styles
 from utils.validation import DataContractError, require_columns, require_unique
@@ -39,6 +40,14 @@ def _load_and_validate() -> tuple[pd.DataFrame, ...]:
     battlegrounds = load_csv(BATTLEGROUNDS_FILE)
     summary = load_csv(SUMMARY_FILE)
     qa = load_csv(QA_FILE)
+    insights = load_presentation_dataset("AIRPORT_DYNAMIC_INSIGHTS")
+    insight_qa = load_presentation_dataset("AIRPORT_DYNAMIC_INSIGHT_QA")
+    representative_comments = load_presentation_dataset(
+        "AIRPORT_REPRESENTATIVE_COMMENTS"
+    )
+    representative_comment_qa = load_presentation_dataset(
+        "AIRPORT_REPRESENTATIVE_COMMENT_QA"
+    )
     count_columns = [
         "unique_comments",
         "positive_comments",
@@ -94,7 +103,93 @@ def _load_and_validate() -> tuple[pd.DataFrame, ...]:
     if not qa["status"].eq("PASS").all():
         failed = qa.loc[qa["status"].ne("PASS"), "check"].astype(str).tolist()
         raise DataContractError(f"Airport presentation QA failed: {', '.join(failed)}")
-    return rows, battlegrounds, summary, qa
+    validate_insights(insights, insight_qa)
+    require_columns(
+        representative_comments,
+        [
+            "page",
+            "dropdown_brand",
+            "evidence_id",
+            "comment_unit_id",
+            "airport_code",
+            "sentiment_group",
+            "excerpt",
+            "post_url",
+            "source_mart",
+            "display_order",
+        ],
+        "AIRPORT_REPRESENTATIVE_COMMENTS",
+    )
+    require_columns(
+        representative_comment_qa,
+        [
+            "evidence_id",
+            "dropdown_brand",
+            "brand_match",
+            "airport_insight_match",
+            "public_safe",
+            "url_valid",
+            "status",
+        ],
+        "AIRPORT_REPRESENTATIVE_COMMENT_QA",
+    )
+    require_unique(
+        representative_comments,
+        ["evidence_id"],
+        "AIRPORT_REPRESENTATIVE_COMMENTS",
+    )
+    require_unique(
+        representative_comment_qa,
+        ["evidence_id"],
+        "AIRPORT_REPRESENTATIVE_COMMENT_QA",
+    )
+    if not representative_comment_qa["status"].eq("PASS").all():
+        failed = representative_comment_qa.loc[
+            representative_comment_qa["status"].ne("PASS"), "evidence_id"
+        ].astype(str).tolist()
+        raise DataContractError(
+            f"Airport representative-comment QA failed: {', '.join(failed)}"
+        )
+    qa_flags = ("brand_match", "airport_insight_match", "public_safe", "url_valid")
+    if not all(
+        representative_comment_qa[column].astype(str).str.upper().eq("TRUE").all()
+        for column in qa_flags
+    ):
+        raise DataContractError(
+            "Airport representative comments must pass every evidence-quality check"
+        )
+    if set(representative_comments["evidence_id"]) != set(
+        representative_comment_qa["evidence_id"]
+    ):
+        raise DataContractError(
+            "Airport representative comments and their QA rows must match exactly"
+        )
+    expected_counts = {brand: 2 for brand in HEADLINE_ISSUERS}
+    actual_counts = (
+        representative_comments.groupby("dropdown_brand")["evidence_id"]
+        .count()
+        .to_dict()
+    )
+    if actual_counts != expected_counts:
+        raise DataContractError(
+            "Airport representative comments must contain exactly two rows per named brand"
+        )
+    if not representative_comments["post_url"].astype(str).str.startswith(
+        "https://www.reddit.com/"
+    ).all():
+        raise DataContractError(
+            "Airport representative comments must use public Reddit post links"
+        )
+    return (
+        rows,
+        battlegrounds,
+        summary,
+        qa,
+        insights,
+        insight_qa,
+        representative_comments,
+        representative_comment_qa,
+    )
 
 
 def _brand_label(value: str) -> str:
@@ -209,8 +304,19 @@ def _render_all_airports(
             )
         drivers = []
         for _, row in group.loc[group["driver_label"].notna()].iterrows():
+            driver_score = pd.to_numeric(row.get("driver_score_100"), errors="coerce")
+            if pd.isna(driver_score):
+                direction_label, direction_class = "Unclear", "neutral"
+            elif float(driver_score) > 0:
+                direction_label, direction_class = "Positive", "positive"
+            elif float(driver_score) < 0:
+                direction_label, direction_class = "Negative", "negative"
+            else:
+                direction_label, direction_class = "Mixed", "neutral"
             drivers.append(
-                f'<span><b>{escape(str(row["brand_display"]))}:</b> {escape(str(row["driver_label"]))}</span>'
+                f'<span><b>{escape(str(row["brand_display"]))}:</b> '
+                f'{escape(str(row["driver_label"]))} '
+                f'<em class="airport-exec-driver-direction {direction_class}">&middot; {direction_label}</em></span>'
             )
         driver_markup = "".join(drivers) or (
             '<span class="muted airport-exec-no-driver" '
@@ -245,7 +351,7 @@ def _render_all_airports(
         """
         <div class="airport-exec-table-head">
             <span>Airport</span><span>Brands with evidence</span><span>Comments & feedback</span>
-            <span>Main supported signal</span><span>Comparison</span>
+            <span>Primary experience driver</span><span>Comparison</span>
         </div>
         """
     )
@@ -297,8 +403,9 @@ def _watchlist_card(row: pd.Series, section: str) -> str:
         else ""
     )
     tooltip = (
-        f"Frozen Overall Experience result: {float(row['frozen_overall_score_100']):+.1f} "
-        f"from {int(row['frozen_overall_comments'])} Overall Experience comments."
+        f"{int(row['positive_comments'])} positive, "
+        f"{int(row['negative_comments'])} negative and "
+        f"{int(row['mixed_neutral_comments'])} mixed or neutral comments."
     )
     location = f"{row['city']}, {row['state']}"
     return compact_html(
@@ -323,7 +430,7 @@ def _render_watchlist(rows: pd.DataFrame, brand: str, section: str) -> int:
     selected = _filter_rows(rows, brand)
     selected = selected.loc[selected["watchlist_section"].eq(section)].sort_values(
         "watchlist_order"
-    )
+    ).head(4)
     if selected.empty:
         st.markdown(
             compact_html(
@@ -348,8 +455,9 @@ def _render_watchlist(rows: pd.DataFrame, brand: str, section: str) -> int:
 def _battle_row(row: pd.Series, selected_brand: str) -> str:
     selected_class = " selected" if selected_brand == str(row["brand"]) else ""
     tooltip = (
-        f"Frozen same-airport comparison result: {float(row['comparison_score_100']):+.1f}; "
-        f"same-airport difference: {float(row['same_airport_difference_pp']):+.1f} points."
+        f"{int(row['positive_comments'])} positive, "
+        f"{int(row['negative_comments'])} negative and "
+        f"{int(row['mixed_neutral_comments'])} mixed or neutral comments."
     )
     return compact_html(
         f"""
@@ -368,13 +476,28 @@ def _render_battlegrounds(
     battlegrounds: pd.DataFrame, selected_brand: str
 ) -> int:
     if selected_brand == "ALL":
-        airport_codes = sorted(battlegrounds["airport_code"].unique())
-    else:
-        airport_codes = sorted(
-            battlegrounds.loc[
-                battlegrounds["brand"].eq(selected_brand), "airport_code"
-            ].unique()
+        ranking = (
+            battlegrounds.assign(
+                comparison_magnitude=pd.to_numeric(
+                    battlegrounds["same_airport_difference_pp"], errors="coerce"
+                ).abs()
+            )
+            .groupby("airport_code")["comparison_magnitude"]
+            .max()
+            .sort_values(ascending=False)
         )
+    else:
+        ranking = (
+            battlegrounds.loc[battlegrounds["brand"].eq(selected_brand)]
+            .assign(
+                comparison_magnitude=lambda frame: pd.to_numeric(
+                    frame["same_airport_difference_pp"], errors="coerce"
+                ).abs()
+            )
+            .set_index("airport_code")["comparison_magnitude"]
+            .sort_values(ascending=False)
+        )
+    airport_codes = ranking.head(4).index.astype(str).tolist()
     cards = []
     for airport in airport_codes:
         group = battlegrounds.loc[battlegrounds["airport_code"].eq(airport)].sort_values(
@@ -433,8 +556,10 @@ def _render_battlegrounds(
 def _map_direction(group: pd.DataFrame, brand: str) -> str:
     if brand == "ALL":
         return "mixed"
-    direction = str(group.iloc[0]["presentation_direction"])
-    return {"POSITIVE": "positive", "NEGATIVE": "negative"}.get(direction, "mixed")
+    watchlist_section = str(group.iloc[0].get("watchlist_section", ""))
+    return {"POSITIVE": "positive", "ATTENTION": "negative"}.get(
+        watchlist_section, "mixed"
+    )
 
 
 def _map_figure(
@@ -532,8 +657,64 @@ def _map_figure(
     return figure
 
 
+def _render_representative_comments(
+    comments: pd.DataFrame, selected_brand: str
+) -> int:
+    """Render approved examples that connect named-brand insights to evidence."""
+    if selected_brand == "ALL":
+        return 0
+    selected = comments.loc[
+        comments["dropdown_brand"].eq(selected_brand)
+    ].sort_values("display_order")
+    if selected.empty:
+        return 0
+    sentiment_labels = {
+        "POSITIVE": "Positive feedback",
+        "NEGATIVE": "Negative feedback",
+        "MIXED_NEUTRAL": "Mixed / neutral feedback",
+    }
+    cards: list[str] = []
+    for _, row in selected.iterrows():
+        sentiment = str(row["sentiment_group"])
+        sentiment_class = sentiment.lower().replace("_", "-")
+        cards.append(
+            f"""
+            <article class="airport-evidence-card">
+                <div class="airport-evidence-meta">
+                    <strong>{escape(str(row['airport_code']))}</strong>
+                    <span class="{escape(sentiment_class)}">{escape(sentiment_labels.get(sentiment, sentiment.title()))}</span>
+                </div>
+                <blockquote>“{escape(str(row['excerpt']))}”</blockquote>
+                <a href="{escape(str(row['post_url']))}" target="_blank" rel="noopener noreferrer">View Reddit post ↗</a>
+            </article>
+            """
+        )
+    st.markdown(
+        compact_html(
+            f"""
+            <div class="airport-evidence-block">
+                <div class="airport-evidence-label">Representative comments behind these location patterns</div>
+                <div class="airport-evidence-grid">{''.join(cards)}</div>
+                <p>These examples add context to the location patterns above; they do not indicate how frequently an opinion occurs.</p>
+            </div>
+            """
+        ),
+        unsafe_allow_html=True,
+    )
+    return len(selected)
+
+
 try:
-    airport_rows, battleground_rows, airport_summary, airport_qa = _load_and_validate()
+    (
+        airport_rows,
+        battleground_rows,
+        airport_summary,
+        airport_qa,
+        insights,
+        insight_qa,
+        representative_comments,
+        representative_comment_qa,
+    ) = _load_and_validate()
 except (FileNotFoundError, KeyError, ValueError, DataContractError) as error:
     st.error(f"Airport View cannot load its presentation data. {error}")
     st.stop()
@@ -543,28 +724,32 @@ render_page_header(
     "See where lounge feedback stands out across US airports and where brands can be compared at the same location.",
 )
 
-render_section_heading(
-    "Airport experience snapshot",
-    "A concise view of sufficiently supported location-level lounge feedback.",
+selected_brand = st.selectbox(
+    "Brand",
+    BRAND_OPTIONS,
+    index=0,
+    format_func=_brand_label,
+    key="airport_view_brand",
 )
-snapshot_column, filter_column = st.columns([3.3, 1], gap="large", vertical_alignment="bottom")
-with filter_column:
-    selected_brand = st.selectbox(
-        "Brand",
-        BRAND_OPTIONS,
-        index=0,
-        format_func=_brand_label,
-        key="airport_view_brand",
-    )
-with snapshot_column:
-    _snapshot(airport_rows, battleground_rows, selected_brand)
+
+render_section_heading(
+    f"Airport insights for {_brand_label(selected_brand)}",
+    "The most decision-relevant location findings in the available Reddit feedback.",
+)
+render_insights(
+    insights,
+    page="Airport View",
+    section="Airport insights",
+    dropdown_brand=selected_brand,
+)
+_render_representative_comments(representative_comments, selected_brand)
 
 st.markdown(
     compact_html(
         """
         <div class="airport-exec-scope-note">
-            <strong>Only airports meeting the frozen evidence threshold are included.</strong>
-            Missing airports indicate insufficient evidence, not neutral performance, no lounge, or no Reddit discussion.
+            <strong>Only airports with enough location-specific feedback are included.</strong>
+            Missing airports do not indicate neutral performance or the absence of a lounge.
         </div>
         """
     ),
@@ -572,8 +757,8 @@ st.markdown(
 )
 
 render_section_heading(
-    "All supported airports",
-    "Complete coverage of every airport meeting the frozen location-specific evidence threshold.",
+    "Airport experience overview",
+    "The complete airport-level view for the selected brand filter.",
 )
 all_airports_count = _render_all_airports(
     airport_rows, battleground_rows, selected_brand
@@ -586,7 +771,7 @@ render_section_heading(
 negative_count = _render_watchlist(airport_rows, selected_brand, "ATTENTION")
 
 render_section_heading(
-    "Airports standing out positively",
+    "Airports performing well",
     "Locations where sufficiently supported lounge feedback is especially positive.",
 )
 positive_count = _render_watchlist(airport_rows, selected_brand, "POSITIVE")
@@ -598,7 +783,7 @@ render_section_heading(
 battleground_count = _render_battlegrounds(battleground_rows, selected_brand)
 
 render_section_heading(
-    "View on map",
+    "Map",
     "Geographic context for airports with sufficient evidence.",
 )
 map_rows = _filter_rows(airport_rows, selected_brand)
@@ -606,7 +791,7 @@ map_competitive_airports = set(battleground_rows["airport_code"].astype(str))
 if selected_brand == "ALL":
     map_legend = '<span><i class="mixed"></i> Supported airport</span>'
 else:
-    map_legend = '<span><i class="negative"></i> Negative leaning</span><span><i class="mixed"></i> Mixed/balanced</span><span><i class="positive"></i> Positive leaning</span>'
+    map_legend = '<span><i class="negative"></i> Qualifying negative location</span><span><i class="mixed"></i> Other included airport</span><span><i class="positive"></i> Qualifying positive location</span>'
 st.markdown(
     f'<div class="airport-exec-map-legend">{map_legend}</div>',
     unsafe_allow_html=True,
@@ -619,5 +804,5 @@ with st.container(border=True, key="airport-exec-map-panel"):
         theme=None,
     )
 st.caption(
-    "One marker is shown per supported airport. All-brands markers are neutral because no combined cross-brand airport score is manufactured. With a specific brand selected, color reflects that brand's comment composition. Marker size reflects unique qualifying comments."
+    "One marker is shown per included airport. All-brands markers use one neutral color because combining brands would create a misleading overall airport result. With a specific brand selected, green and red use the same qualifying positive and negative classifications as the ranked airport sections; other included airports remain gray. Marker size reflects unique qualifying comments."
 )

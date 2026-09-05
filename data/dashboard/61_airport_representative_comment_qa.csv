@@ -1,0 +1,9 @@
+page,dropdown_brand,evidence_id,comment_unit_id,airport_code,sentiment_group,source_mart,brand_match,airport_insight_match,public_safe,url_valid,status
+Airport View,AMEX,AMEX_LAX_01,comment_0011771,LAX,NEGATIVE,58_voc_display_public.csv,TRUE,TRUE,TRUE,TRUE,PASS
+Airport View,AMEX,AMEX_DFW_02,comment_0004357,DFW,NEGATIVE,58_voc_display_public.csv,TRUE,TRUE,TRUE,TRUE,PASS
+Airport View,CHASE,CHASE_LAS_01,comment_0007371,LAS,NEGATIVE,58_voc_display_public.csv,TRUE,TRUE,TRUE,TRUE,PASS
+Airport View,CHASE,CHASE_LGA_02,comment_0001459,LGA,POSITIVE,58_voc_display_public.csv,TRUE,TRUE,TRUE,TRUE,PASS
+Airport View,CAPITAL_ONE,CAPITAL_ONE_JFK_01,comment_0013458,JFK,POSITIVE,58_voc_display_public.csv,TRUE,TRUE,TRUE,TRUE,PASS
+Airport View,CAPITAL_ONE,CAPITAL_ONE_DCA_02,comment_0006379,DCA,POSITIVE,58_voc_display_public.csv,TRUE,TRUE,TRUE,TRUE,PASS
+Airport View,DELTA,DELTA_LAX_01,comment_0016927,LAX,POSITIVE,58_voc_display_public.csv,TRUE,TRUE,TRUE,TRUE,PASS
+Airport View,DELTA,DELTA_LAX_02,comment_0001424,LAX,POSITIVE,58_voc_display_public.csv,TRUE,TRUE,TRUE,TRUE,PASS
