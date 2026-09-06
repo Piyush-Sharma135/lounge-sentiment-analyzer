@@ -24,7 +24,7 @@
   margin: 0.3rem 0 0.85rem;
   padding: 0.8rem 0.95rem;
   border: 1px solid #d7e2ef;
-  border-left: 4px solid #4f78b2;
+  border-left: 4px solid #4f78b2 !important;
   border-radius: 11px;
   background: #f7fafe;
   color: #425570;
@@ -42,7 +42,11 @@
 
 .method-rule-box li + li { margin-top: 0.32rem; }
 .method-rule-box strong { color: #263d5c; }
-.method-rule-box.interpretation { border-left-color: #c48a28; background: #fffaf0; }
+.method-rule-box.interpretation {
+  border-color: #d7e2ef;
+  border-left-color: #4f78b2 !important;
+  background: #f7fafe;
+}
 .method-theme-box small {
   display: block;
   margin-top: 0.08rem;

@@ -504,7 +504,7 @@ def _render_heat_strip(monthly: pd.DataFrame, theme: str, subdued: bool) -> None
             f"""
             <article class="exec-heat-card{' secondary' if subdued else ''}">
                 <div class="exec-heat-title"><h3>{escape(theme)}</h3></div>
-                <div class="exec-heat-months"><span></span>{month_header}</div>
+                <div class="exec-heat-months"><span class="exec-heat-brand-header">Brand</span>{month_header}</div>
                 {''.join(rows)}
             </article>
             """

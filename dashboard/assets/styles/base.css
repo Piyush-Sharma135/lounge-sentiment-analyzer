@@ -5,6 +5,11 @@
   --line: #e4e9f1;
   --surface: #ffffff;
   --surface-soft: #f6f8fb;
+  --surface-card: rgba(248, 250, 252, 0.96);
+  --surface-panel: rgba(238, 244, 249, 0.94);
+  --surface-border: #d8e2ec;
+  --surface-radius: 13px;
+  --surface-shadow: 0 12px 28px rgba(28, 58, 91, 0.09);
   --navy: #15233f;
   --blue: #3468d4;
   --positive: #168461;
@@ -1037,8 +1042,10 @@ header[data-testid="stHeader"] {
 .method-info-card,
 .method-metric-card,
 .method-example-card {
-  background: rgba(255, 255, 255, 0.9) !important;
-  box-shadow: 0 12px 28px rgba(28, 58, 91, 0.09) !important;
+  border-color: var(--surface-border) !important;
+  border-radius: var(--surface-radius) !important;
+  background: var(--surface-card) !important;
+  box-shadow: var(--surface-shadow) !important;
   backdrop-filter: blur(12px) saturate(112%);
 }
 
@@ -2150,10 +2157,19 @@ div[data-baseweb="popover"] span {
 }
 
 .home-source-rank { color: #8a94a5; font-size: 0.58rem; font-weight: 780; }
-.home-source-row > strong { color: #33425a; font-size: 0.7rem; }
+.home-source-row > strong {
+  color: #eaf2fa;
+  font-size: 0.7rem;
+  text-shadow: 0 1px 8px rgba(4, 18, 34, 0.28);
+}
 .home-source-track { height: 7px; overflow: hidden; border-radius: 99px; background: #edf0f4; }
 .home-source-track i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #315f9f, #6d96cf); }
-.home-source-count { color: #68758a; font-size: 0.62rem; font-variant-numeric: tabular-nums; text-align: right; }
+.home-source-count {
+  color: #c6d3e0;
+  font-size: 0.62rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
 .home-source-warning { border: 1px solid #f0dfbd; background: #fff8eb; }
 
 .home-brand-set {

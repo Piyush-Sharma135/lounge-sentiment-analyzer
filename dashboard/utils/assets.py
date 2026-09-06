@@ -9,8 +9,8 @@ from pathlib import Path
 
 
 ASSET_DIR = Path(__file__).resolve().parents[1] / "assets"
-IMAGE_DIR = ASSET_DIR / "images"
 BRAND_DIR = ASSET_DIR / "brands"
+STATIC_DIR = Path(__file__).resolve().parents[1] / "static"
 
 BRAND_MARKS = {
     "AMEX": ("american-express.svg", "American Express"),
