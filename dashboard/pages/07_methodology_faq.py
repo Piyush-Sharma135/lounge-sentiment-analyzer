@@ -254,24 +254,25 @@ st.markdown(
     ),
     unsafe_allow_html=True,
 )
-example_columns = st.columns(2, gap="medium")
-with example_columns[0]:
-    _render_example(
-        "comment_0000413",
-        label="Capital One · lounge experience",
-        title="One clear experience judgment",
-        explanation="The comment supports the displayed Capital One experience area and sentiment directly.",
-        excerpt="The lounge is a great perk. I don't fly a ton, but using the lounge only 2x a year is easily $100 value and it's far more comfortable with it than without it.",
-    )
-with example_columns[1]:
-    _render_example(
-        "comment_0002181",
-        label="Amex · food and beverage",
-        title="Several judgments in one comment",
-        explanation="The same comment supports separate experience areas and sentiments while remaining one comment in each relevant view.",
-        excerpt="I generally find the food to be subpar. So, good place to grab a drink 🥃 if you have time.",
-        include_aspects=("FOOD_QUALITY", "BEVERAGE_BAR"),
-    )
+with st.expander("View comment-tagging examples", expanded=False):
+    example_columns = st.columns(2, gap="medium")
+    with example_columns[0]:
+        _render_example(
+            "comment_0000413",
+            label="Capital One · lounge experience",
+            title="One clear experience judgment",
+            explanation="The comment supports the displayed Capital One experience area and sentiment directly.",
+            excerpt="The lounge is a great perk. I don't fly a ton, but using the lounge only 2x a year is easily $100 value and it's far more comfortable with it than without it.",
+        )
+    with example_columns[1]:
+        _render_example(
+            "comment_0002181",
+            label="Amex · food and beverage",
+            title="Several judgments in one comment",
+            explanation="The same comment supports separate experience areas and sentiments while remaining one comment in each relevant view.",
+            excerpt="I generally find the food to be subpar. So, good place to grab a drink 🥃 if you have time.",
+            include_aspects=("FOOD_QUALITY", "BEVERAGE_BAR"),
+        )
 
 _section(
     "interpretation",
