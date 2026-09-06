@@ -4,7 +4,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from utils.assets import STATIC_DIR
+from utils.assets import STATIC_DIR, asset_data_uri
 
 
 STYLE_DIR = Path(__file__).resolve().parents[1] / "assets" / "styles"
@@ -17,13 +17,9 @@ STYLE_FILES = (
 def apply_base_styles() -> None:
     """Inject the local dashboard stylesheet."""
     image_files = {
-        "__EXECUTIVE_HERO_IMAGE__": STATIC_DIR / "executive-lounge-hero.png",
+        "__EXECUTIVE_HERO_IMAGE__": STATIC_DIR / "executive-lounge-hero.webp",
         "__EXECUTIVE_BACKGROUND_IMAGE__": STATIC_DIR
-        / "executive-dashboard-background.png",
-    }
-    image_urls = {
-        "__EXECUTIVE_HERO_IMAGE__": "/app/static/executive-lounge-hero.png",
-        "__EXECUTIVE_BACKGROUND_IMAGE__": "/app/static/executive-dashboard-background.png",
+        / "executive-dashboard-background.webp",
     }
     missing = [
         path for path in (*STYLE_FILES, *image_files.values()) if not path.is_file()
@@ -32,6 +28,6 @@ def apply_base_styles() -> None:
         st.warning(f"Dashboard visual asset is missing: {missing[0]}")
         return
     css = "\n".join(path.read_text(encoding="utf-8") for path in STYLE_FILES)
-    for placeholder, url in image_urls.items():
-        css = css.replace(placeholder, url)
+    for placeholder, path in image_files.items():
+        css = css.replace(placeholder, asset_data_uri(path))
     st.html(f'<span id="dashboard-style-anchor" hidden></span><style>{css}</style>')

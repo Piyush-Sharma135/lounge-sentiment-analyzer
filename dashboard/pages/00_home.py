@@ -14,7 +14,7 @@ from components.home import (
     render_source_ranking,
 )
 from components.layout import render_page_header, render_section_heading
-from utils.constants import DATA_DIR, ENTITY_SHORT_NAMES, HEADLINE_ISSUERS
+from utils.constants import DATA_DIR, HEADLINE_ISSUERS
 from utils.data_loader import load_canonical_dataset, load_csv, load_home_frozen_summaries
 from utils.html import compact_html
 from utils.validation import DataContractError, require_columns, require_unique
@@ -226,9 +226,10 @@ assert isinstance(counts, dict)
 assert isinstance(sources, pd.DataFrame)
 
 render_page_header(
-    "Airport Lounge Experience Intelligence",
-    "A 2026 YTD view of how Reddit users describe airport lounge experiences across Amex, Chase, Capital One and Delta.",
-    eyebrow="REDDIT LOUNGE INTELLIGENCE",
+    "Airport Lounge Experience",
+    "A 2026 YTD view of how Reddit users describe airport lounge experiences.",
+    eyebrow="REDDIT VOICE OF CUSTOMER",
+    brands=HEADLINE_ISSUERS,
 )
 
 render_section_heading("Where do you want to start?")
@@ -342,16 +343,6 @@ reading_markup = "".join(
     for title, body in reading_cards
 )
 st.markdown(f'<div class="home-interpret-grid">{reading_markup}</div>', unsafe_allow_html=True)
-render_section_heading("Brands covered")
-brand_markup = "".join(
-    f'<span>{escape(ENTITY_SHORT_NAMES[brand])}</span>' for brand in HEADLINE_ISSUERS
-)
-st.markdown(f'<div class="home-brand-set">{brand_markup}</div>', unsafe_allow_html=True)
-st.markdown(
-    '<p class="home-secondary-copy">The underlying analysis also retains physical lounge networks and access programs where attribution is supported.</p>',
-    unsafe_allow_html=True,
-)
-
 render_section_heading(
     "Where the conversation comes from",
     f"{len(sources):,} Reddit communities contribute to the final clean analysis.",
