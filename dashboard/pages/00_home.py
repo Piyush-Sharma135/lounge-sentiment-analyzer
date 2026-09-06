@@ -307,11 +307,6 @@ render_snapshot_cards(
         },
     ]
 )
-st.markdown(
-    '<div class="home-inline-note home-data-note">Comments were filtered for genuine lounge experience, usable detail and defensible brand or lounge attribution before detailed experience observations were extracted.</div>',
-    unsafe_allow_html=True,
-)
-
 render_section_heading("What parts of the lounge experience are analyzed?")
 theme_markup = "".join(
     f'<li><div class="home-theme-heading"><strong>{escape(title)}</strong></div><ul><li>{escape(description)}</li></ul></li>'
@@ -321,11 +316,6 @@ st.markdown(
     f'<div class="home-theme-box"><ul>{theme_markup}</ul></div>',
     unsafe_allow_html=True,
 )
-st.markdown(
-    '<div class="home-inline-note">These are executive presentation groups. The underlying analysis retains the detailed experience areas separately.</div>',
-    unsafe_allow_html=True,
-)
-
 render_section_heading("How to read the numbers")
 reading_cards = (
     (
@@ -375,10 +365,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 render_source_ranking(sources)
-st.markdown(
-    '<div class="home-source-warning">Reddit discussion volume reflects where conversation was collected. It is not market share, customer population or brand popularity.</div>',
-    unsafe_allow_html=True,
-)
 
 st.page_link(
     "pages/07_methodology_faq.py",
