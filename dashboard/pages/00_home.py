@@ -13,7 +13,6 @@ from components.home import (
     render_snapshot_cards,
     render_source_ranking,
 )
-from components.icons import theme_icon_svg
 from components.layout import render_page_header, render_section_heading
 from utils.constants import DATA_DIR, ENTITY_SHORT_NAMES, HEADLINE_ISSUERS
 from utils.data_loader import load_canonical_dataset, load_csv, load_home_frozen_summaries
@@ -315,7 +314,7 @@ st.markdown(
 
 render_section_heading("What parts of the lounge experience are analyzed?")
 theme_markup = "".join(
-    f'<li><div class="home-theme-heading">{theme_icon_svg(title, css_class="theme-row-icon")}<strong>{escape(title)}</strong></div><ul><li>{escape(description)}</li></ul></li>'
+    f'<li><div class="home-theme-heading"><strong>{escape(title)}</strong></div><ul><li>{escape(description)}</li></ul></li>'
     for title, description in THEME_CARDS
 )
 st.markdown(
