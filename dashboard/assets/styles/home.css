@@ -93,8 +93,9 @@
 }
 
 .home-inline-note {
-  width: min(900px, 100%);
-  margin: 0.62rem auto 1.3rem;
+  width: auto;
+  max-width: none;
+  margin: 0.62rem 0 1.3rem;
 }
 
 .home-theme-box {
