@@ -7,6 +7,7 @@ from html import escape
 import pandas as pd
 import streamlit as st
 
+from components.icons import icon_svg
 from utils.constants import ENTITY_SHORT_NAMES
 from utils.html import compact_html
 from utils.validation import DataContractError, require_columns, require_unique
@@ -82,6 +83,18 @@ def render_insights(
             if is_brand_comparison and label
             else ""
         )
+        headline = str(row["headline"])
+        if section == "Trend insights":
+            icon_name = "trend"
+        elif "crowding" in headline.lower() or "access" in headline.lower():
+            icon_name = "capacity"
+        elif "food" in headline.lower() or "beverage" in headline.lower():
+            icon_name = "food"
+        elif "space" in headline.lower() or "convenience" in headline.lower():
+            icon_name = "amenities"
+        else:
+            icon_name = "drivers"
+        insight_icon = icon_svg(icon_name, css_class="leadership-insight-icon")
         if is_brand_comparison:
             pressure_text = row.get("pressure_text")
             if pd.isna(pressure_text) or not str(pressure_text).strip():
@@ -115,8 +128,9 @@ def render_insights(
             compact_html(
                 f"""
                 <article class="leadership-insight-card{brand_class}">
+                    {insight_icon}
                     {label_markup}
-                    <h3>{escape(str(row['headline']))}</h3>
+                    <h3>{escape(headline)}</h3>
                     {body_markup}
                 </article>
                 """

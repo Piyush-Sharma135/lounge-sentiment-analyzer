@@ -10,9 +10,15 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from components.executive_insights import render_insights, validate_insights
+from components.executive_insights import validate_insights
 from components.layout import render_page_header, render_section_heading
-from utils.constants import DATA_DIR, ENTITY_SHORT_NAMES, HEADLINE_ISSUERS
+from utils.assets import brand_logo_img
+from utils.constants import (
+    DATA_DIR,
+    ENTITY_COLORS,
+    ENTITY_SHORT_NAMES,
+    HEADLINE_ISSUERS,
+)
 from utils.data_loader import load_csv, load_presentation_dataset
 from utils.html import compact_html
 from utils.styling import apply_base_styles
@@ -28,6 +34,128 @@ AIRPORT_STYLE_FILE = (
 )
 BRAND_OPTIONS = ("ALL", *HEADLINE_ISSUERS)
 PLOT_CONFIG = {"displayModeBar": False, "responsive": True}
+AIRPORT_OVERVIEW_CARDS = {
+    "AMEX": {
+        "headline": (
+            "Amex airport feedback shows concentrated access and capacity pressure."
+        ),
+        "what_stands_out": (
+            "The strongest negative patterns cluster at specific airports rather "
+            "than appearing uniformly."
+        ),
+        "examples": (
+            {
+                "airport_code": "LAX",
+                "text": (
+                    "clear negative pressure and a sharp same-airport contrast with "
+                    "Delta."
+                ),
+                "evidence_id": "AMEX_LAX_01",
+            },
+            {
+                "airport_code": "DFW",
+                "text": "crowding is the clearest supported local capacity friction.",
+                "evidence_id": "AMEX_DFW_02",
+            },
+            {
+                "airport_code": "SLC",
+                "text": "favorable feedback provides an important counterexample.",
+            },
+        ),
+        "overall_read": (
+            "Amex pressure is concentrated in local access and capacity issues."
+        ),
+        "supporting_insight_ids": (
+            "AP_AMEX_01",
+            "AP_AMEX_02",
+            "AP_AMEX_03",
+        ),
+    },
+    "CHASE": {
+        "headline": (
+            "Chase airport performance is mixed, with clear positive and negative pockets."
+        ),
+        "what_stands_out": (
+            "Feedback varies materially by airport rather than leaning consistently "
+            "in one direction."
+        ),
+        "examples": (
+            {
+                "airport_code": "LGA",
+                "text": "the clearest positive airport pattern.",
+                "evidence_id": "CHASE_LGA_02",
+            },
+            {
+                "airport_code": "JFK",
+                "text": "queue and wait-time friction contributes to negative feedback.",
+            },
+            {
+                "airport_code": "LAS",
+                "text": "negative feedback contrasts with Capital One.",
+                "evidence_id": "CHASE_LAS_01",
+            },
+        ),
+        "overall_read": "Chase's airport experience is highly location-dependent.",
+        "supporting_insight_ids": (
+            "AP_CHASE_01",
+            "AP_CHASE_02",
+            "AP_CHASE_03",
+        ),
+    },
+    "CAPITAL_ONE": {
+        "headline": "Capital One shows the broadest set of favorable airport-level signals.",
+        "what_stands_out": (
+            "Positive feedback spans several airports rather than relying on one "
+            "standout."
+        ),
+        "examples": (
+            {
+                "airport_code": "JFK",
+                "text": "a strong positive contrast with Amex and Chase.",
+                "evidence_id": "CAPITAL_ONE_JFK_01",
+            },
+            {
+                "airport_code": "LAS",
+                "text": "favorable feedback versus Chase.",
+            },
+            {
+                "airport_code": "DCA",
+                "text": "food quality supports positive feedback.",
+                "evidence_id": "CAPITAL_ONE_DCA_02",
+            },
+        ),
+        "overall_read": (
+            "Available evidence indicates a comparatively consistent positive "
+            "experience across multiple airports."
+        ),
+        "supporting_insight_ids": (
+            "AP_CAPITAL_ONE_01",
+            "AP_CAPITAL_ONE_02",
+            "AP_CAPITAL_ONE_03",
+        ),
+    },
+    "DELTA": {
+        "headline": "Delta's available airport evidence is limited but distinctly favorable.",
+        "what_stands_out": (
+            "Delta's strongest supported location signal is positive."
+        ),
+        "examples": (
+            {
+                "airport_code": "LAX",
+                "text": (
+                    "strong positive feedback and a clear same-airport contrast with "
+                    "Amex."
+                ),
+                "evidence_id": "DELTA_LAX_01",
+            },
+        ),
+        "overall_read": (
+            "The signal is favorable, but narrow coverage keeps the conclusion "
+            "location-specific."
+        ),
+        "supporting_insight_ids": ("AP_DELTA_01", "AP_DELTA_02"),
+    },
+}
 
 
 apply_base_styles()
@@ -104,6 +232,10 @@ def _load_and_validate() -> tuple[pd.DataFrame, ...]:
         failed = qa.loc[qa["status"].ne("PASS"), "check"].astype(str).tolist()
         raise DataContractError(f"Airport presentation QA failed: {', '.join(failed)}")
     validate_insights(insights, insight_qa)
+    if tuple(AIRPORT_OVERVIEW_CARDS) != HEADLINE_ISSUERS:
+        raise DataContractError(
+            "Airport overview cards must preserve the approved four-brand order"
+        )
     require_columns(
         representative_comments,
         [
@@ -180,6 +312,44 @@ def _load_and_validate() -> tuple[pd.DataFrame, ...]:
         raise DataContractError(
             "Airport representative comments must use public Reddit post links"
         )
+    for brand, card in AIRPORT_OVERVIEW_CARDS.items():
+        examples = tuple(card["examples"])
+        if not 1 <= len(examples) <= 3:
+            raise DataContractError(
+                f"Airport overview for {brand} must use one to three airport examples"
+            )
+        source_count = sum(bool(example.get("evidence_id")) for example in examples)
+        if source_count > 2:
+            raise DataContractError(
+                f"Airport overview for {brand} cannot use more than two source links"
+            )
+        for insight_id in card["supporting_insight_ids"]:
+            supporting_rows = insights.loc[
+                insights["insight_id"].eq(insight_id)
+                & insights["dropdown_brand"].eq(brand)
+            ]
+            if len(supporting_rows) != 1 or not supporting_rows[
+                "evidence_threshold_pass"
+            ].astype(str).str.upper().eq("TRUE").all():
+                raise DataContractError(
+                    f"Airport overview for {brand} lacks approved support: {insight_id}"
+                )
+        for example in examples:
+            evidence_id = example.get("evidence_id", "")
+            if not evidence_id:
+                continue
+            evidence_rows = representative_comments.loc[
+                representative_comments["evidence_id"].eq(evidence_id)
+                & representative_comments["dropdown_brand"].eq(brand)
+                & representative_comments["airport_code"].eq(
+                    str(example["airport_code"])
+                )
+            ]
+            if len(evidence_rows) != 1:
+                raise DataContractError(
+                    f"Airport overview source {evidence_id} does not match {brand} "
+                    f"at {example['airport_code']}"
+                )
     return (
         rows,
         battlegrounds,
@@ -205,6 +375,70 @@ def _summary_value(summary: pd.DataFrame, metric: str) -> int:
 
 def _safe_text(value: object) -> str:
     return "" if pd.isna(value) else str(value)
+
+
+def _render_airport_overview(comments: pd.DataFrame) -> int:
+    """Render the fixed four-brand airport story above the detailed filter."""
+    cards: list[str] = []
+    for brand in HEADLINE_ISSUERS:
+        display = AIRPORT_OVERVIEW_CARDS[brand]
+        examples: list[str] = []
+        for example in display["examples"]:
+            evidence_id = example.get("evidence_id", "")
+            source_markup = ""
+            if evidence_id:
+                evidence = comments.loc[
+                    comments["evidence_id"].eq(evidence_id)
+                ].iloc[0]
+                airport_code = str(example["airport_code"])
+                source_markup = (
+                    f'<a class="exec-brand-source airport-overview-source" '
+                    f'href="{escape(str(evidence["post_url"]))}" target="_blank" '
+                    f'rel="noopener noreferrer">See representative '
+                    f'{escape(airport_code)} comment&nbsp;'
+                    '<span aria-hidden="true">↗</span></a>'
+                )
+            examples.append(
+                compact_html(
+                    f"""
+                    <li>
+                        <div><strong>{escape(str(example['airport_code']))}:</strong>
+                        <span>{escape(str(example['text']))}</span></div>
+                        {source_markup}
+                    </li>
+                    """
+                )
+            )
+        color = ENTITY_COLORS.get(brand, "#3468d4")
+        cards.append(
+            compact_html(
+                f"""
+                <article class="exec-brand-card airport-overview-card" style="--brand-color:{color}">
+                    <div class="exec-brand-mark">{brand_logo_img(brand)}<span>{escape(ENTITY_SHORT_NAMES[brand])}</span></div>
+                    <div class="exec-brand-headline">{escape(str(display['headline']))}</div>
+                    <div class="exec-brand-interpretation">
+                        <div class="exec-brand-signal airport-overview-standout">
+                            <span>What stands out</span>
+                            <strong>{escape(str(display['what_stands_out']))}</strong>
+                        </div>
+                        <div class="exec-brand-signal airport-overview-locations">
+                            <span>Where it shows up</span>
+                            <ul>{''.join(examples)}</ul>
+                        </div>
+                    </div>
+                    <div class="airport-overview-read">
+                        <span>Overall takeaway</span>
+                        <strong>{escape(str(display['overall_read']))}</strong>
+                    </div>
+                </article>
+                """
+            )
+        )
+    st.markdown(
+        f'<div class="exec-brand-grid airport-overview-grid">{"".join(cards)}</div>',
+        unsafe_allow_html=True,
+    )
+    return len(cards)
 
 
 def _sentiment_bar(row: pd.Series, compact: bool = False) -> str:
@@ -555,47 +789,85 @@ def _render_battlegrounds(
 
 def _map_direction(group: pd.DataFrame, brand: str) -> str:
     if brand == "ALL":
-        return "mixed"
+        return "supported"
     watchlist_section = str(group.iloc[0].get("watchlist_section", ""))
     return {"POSITIVE": "positive", "ATTENTION": "negative"}.get(
-        watchlist_section, "mixed"
+        watchlist_section, "supported"
     )
+
+
+def _map_classification_label(direction: str) -> str:
+    return {
+        "positive": "Performing well",
+        "negative": "Needs attention",
+        "supported": "Supported / mixed",
+    }[direction]
+
+
+def _bounded_marker_sizes(comment_counts: pd.Series) -> pd.Series:
+    """Keep every airport tappable without letting the largest sample dominate."""
+    rooted = np.sqrt(pd.to_numeric(comment_counts, errors="coerce").fillna(0).clip(0))
+    low = float(rooted.min())
+    high = float(rooted.max())
+    if high <= low:
+        return pd.Series(19.0, index=comment_counts.index)
+    return 13.0 + ((rooted - low) / (high - low)) * 13.0
 
 
 def _map_figure(
     rows: pd.DataFrame, brand: str, competitive_airports: set[str]
 ) -> go.Figure:
-    colors = {"positive": "#168461", "negative": "#c9474f", "mixed": "#8995a7"}
+    colors = {
+        "positive": "#168461",
+        "negative": "#c9474f",
+        "supported": "#8995a7",
+    }
     points: list[dict[str, object]] = []
     for airport, group in rows.groupby("airport_code"):
         group = group.sort_values("brand_order")
         first = group.iloc[0]
         direction = _map_direction(group, brand)
+        has_comparison = airport in competitive_airports
         if brand == "ALL":
+            brand_count = int(group["brand"].nunique())
             brand_lines = "<br>".join(
-                f"{escape(str(row['brand_display']))}: {int(row['unique_comments'])} comments"
+                f"{escape(str(row['brand_display']))} · {int(row['unique_comments'])} comments"
                 for _, row in group.iterrows()
             )
-            comparison = "Yes" if airport in competitive_airports else "No"
-            detail_lines = f"{brand_lines}<br>Brand comparison available: {comparison}"
             marker_comments = int(first["airport_unique_comments"])
-        else:
-            brand_lines = "<br>".join(
-                f"{escape(str(row['brand_display']))}: {int(row['unique_comments'])} comments / "
-                f"{int(row['positive_comments'])} positive / {int(row['negative_comments'])} negative / "
-                f"{int(row['mixed_neutral_comments'])} mixed/neutral"
-                for _, row in group.iterrows()
+            comparison_label = (
+                "Direct comparison available"
+                if has_comparison
+                else "No direct comparison"
             )
-            detail_lines = brand_lines
+            hover = (
+                f"<b>{escape(str(airport))} · {escape(str(first['airport_name']))}</b><br>"
+                f"Brands with evidence: {brand_count}<br>"
+                f"Total qualifying comments shown: {marker_comments}<br><br>"
+                f"{brand_lines}<br>"
+                f"Comparison: {comparison_label}"
+            )
+        else:
             marker_comments = int(first["unique_comments"])
-        driver_rows = group.loc[group["driver_label"].notna()].copy()
-        driver_line = ""
-        if not driver_rows.empty:
-            driver_rows["magnitude"] = pd.to_numeric(
-                driver_rows["driver_score_100"], errors="coerce"
-            ).abs()
-            driver = driver_rows.sort_values("magnitude", ascending=False).iloc[0]
-            driver_line = f"<br>Main supported signal: {escape(_driver_context(driver))}"
+            driver = _safe_text(first.get("driver_label"))
+            driver_score = pd.to_numeric(first.get("driver_score_100"), errors="coerce")
+            driver_line = ""
+            if driver and pd.notna(driver_score) and float(driver_score) != 0:
+                driver_direction = "Positive" if float(driver_score) > 0 else "Negative"
+                driver_line = (
+                    f"<br>Primary experience driver: "
+                    f"{escape(driver)} · {driver_direction}"
+                )
+            hover = (
+                f"<b>{escape(str(airport))} · {escape(str(first['airport_name']))}</b><br>"
+                f"Brand: {escape(str(first['brand_display']))}<br>"
+                f"Evidence: {marker_comments} qualifying comments<br>"
+                f"Feedback mix: {int(first['positive_comments'])} positive · "
+                f"{int(first['negative_comments'])} negative · "
+                f"{int(first['mixed_neutral_comments'])} mixed/neutral"
+                f"{driver_line}<br>"
+                f"Classification: {_map_classification_label(direction)}"
+            )
         points.append(
             {
                 "airport_code": airport,
@@ -603,47 +875,107 @@ def _map_figure(
                 "longitude": float(first["longitude"]),
                 "direction": direction,
                 "color": colors[direction],
-                "size": 11 + min(float(np.sqrt(marker_comments)) * 1.7, 13),
-                "hover": (
-                    f"<b>{escape(str(airport))} - {escape(str(first['airport_name']))}</b><br>"
-                    f"{detail_lines}{driver_line if brand != 'ALL' else ''}"
-                ),
+                "comments": marker_comments,
+                "comparison": has_comparison,
+                "hover": hover,
             }
         )
     points_frame = pd.DataFrame(points)
+    points_frame["size"] = _bounded_marker_sizes(points_frame["comments"])
+    if brand == "ALL":
+        points_frame["map_group"] = np.where(
+            points_frame["comparison"], "comparison", "supported"
+        )
+    else:
+        points_frame["map_group"] = points_frame["direction"]
+
     figure = go.Figure()
-    for direction in ("negative", "mixed", "positive"):
-        subset = points_frame.loc[points_frame["direction"].eq(direction)]
+    groups = (
+        ("supported", "comparison")
+        if brand == "ALL"
+        else ("negative", "supported", "positive")
+    )
+    for map_group in groups:
+        subset = points_frame.loc[points_frame["map_group"].eq(map_group)]
         if subset.empty:
             continue
+        if brand == "ALL":
+            line_color = "#2f73b8" if map_group == "comparison" else "#ffffff"
+            line_width = 3 if map_group == "comparison" else 1.5
+            labels = (
+                subset["airport_code"]
+                if map_group == "comparison"
+                else [""] * len(subset)
+            )
+        else:
+            line_color = "#ffffff"
+            line_width = 1.5
+            labels = (
+                subset["airport_code"]
+                if map_group in {"negative", "positive"}
+                else [""] * len(subset)
+            )
+        halo_color = (
+            "#2f73b8"
+            if brand == "ALL" and map_group == "comparison"
+            else subset["color"]
+        )
         figure.add_trace(
             go.Scattergeo(
                 lon=subset["longitude"],
                 lat=subset["latitude"],
-                text=subset["airport_code"],
+                mode="markers",
+                hoverinfo="skip",
+                marker={
+                    "size": subset["size"] + 9,
+                    "color": halo_color,
+                    "line": {"width": 0},
+                    "opacity": 0.12,
+                },
+                showlegend=False,
+            )
+        )
+        figure.add_trace(
+            go.Scattergeo(
+                lon=subset["longitude"],
+                lat=subset["latitude"],
+                text=labels,
                 hovertext=subset["hover"],
                 hovertemplate="%{hovertext}<extra></extra>",
                 mode="markers+text",
                 textposition="top center",
-                textfont={"size": 10, "color": "#46546b"},
+                textfont={
+                    "size": 10,
+                    "color": "#30445f",
+                    "family": "Inter, Segoe UI, sans-serif",
+                },
                 marker={
                     "size": subset["size"],
                     "color": subset["color"],
-                    "line": {"color": "#ffffff", "width": 1.5},
-                    "opacity": 0.86,
+                    "line": {"color": line_color, "width": line_width},
+                    "opacity": 0.94 if map_group != "supported" else 0.86,
                 },
-                name=direction.title(),
+                name=map_group.title(),
             )
         )
     figure.update_geos(
         scope="usa",
         projection_type="albers usa",
         showland=True,
-        landcolor="#eef2f7",
+        landcolor="#e8eef5",
+        showocean=True,
+        oceancolor="#f6f9fd",
         showlakes=True,
-        lakecolor="#ffffff",
-        subunitcolor="#d4dce8",
-        countrycolor="#c4cedc",
+        lakecolor="#dfeaf5",
+        showsubunits=True,
+        subunitcolor="#cbd6e3",
+        subunitwidth=0.7,
+        showcoastlines=True,
+        coastlinecolor="#b9c8d9",
+        coastlinewidth=0.9,
+        countrycolor="#afbed0",
+        countrywidth=1,
+        showframe=False,
         bgcolor="rgba(0,0,0,0)",
     )
     figure.update_layout(
@@ -653,55 +985,14 @@ def _map_figure(
         plot_bgcolor="rgba(0,0,0,0)",
         showlegend=False,
         font={"family": "Inter, Segoe UI, sans-serif", "color": "#26334b"},
+        hoverlabel={
+            "bgcolor": "#ffffff",
+            "bordercolor": "#cbd5e1",
+            "font": {"size": 12, "color": "#24324a"},
+            "align": "left",
+        },
     )
     return figure
-
-
-def _render_representative_comments(
-    comments: pd.DataFrame, selected_brand: str
-) -> int:
-    """Render approved examples that connect named-brand insights to evidence."""
-    if selected_brand == "ALL":
-        return 0
-    selected = comments.loc[
-        comments["dropdown_brand"].eq(selected_brand)
-    ].sort_values("display_order")
-    if selected.empty:
-        return 0
-    sentiment_labels = {
-        "POSITIVE": "Positive feedback",
-        "NEGATIVE": "Negative feedback",
-        "MIXED_NEUTRAL": "Mixed / neutral feedback",
-    }
-    cards: list[str] = []
-    for _, row in selected.iterrows():
-        sentiment = str(row["sentiment_group"])
-        sentiment_class = sentiment.lower().replace("_", "-")
-        cards.append(
-            f"""
-            <article class="airport-evidence-card">
-                <div class="airport-evidence-meta">
-                    <strong>{escape(str(row['airport_code']))}</strong>
-                    <span class="{escape(sentiment_class)}">{escape(sentiment_labels.get(sentiment, sentiment.title()))}</span>
-                </div>
-                <blockquote>“{escape(str(row['excerpt']))}”</blockquote>
-                <a href="{escape(str(row['post_url']))}" target="_blank" rel="noopener noreferrer">View Reddit post ↗</a>
-            </article>
-            """
-        )
-    st.markdown(
-        compact_html(
-            f"""
-            <div class="airport-evidence-block">
-                <div class="airport-evidence-label">Representative comments behind these location patterns</div>
-                <div class="airport-evidence-grid">{''.join(cards)}</div>
-                <p>These examples add context to the location patterns above; they do not indicate how frequently an opinion occurs.</p>
-            </div>
-            """
-        ),
-        unsafe_allow_html=True,
-    )
-    return len(selected)
 
 
 try:
@@ -724,6 +1015,16 @@ render_page_header(
     "See where lounge feedback stands out across US airports and where brands can be compared at the same location.",
 )
 
+render_section_heading(
+    "Airport Overview",
+    "The clearest location-level experience patterns across Amex, Chase, Capital One and Delta.",
+)
+_render_airport_overview(representative_comments)
+
+render_section_heading(
+    "Explore Airports by Brand",
+    "Select a brand to explore its airport-level feedback in more detail.",
+)
 selected_brand = st.selectbox(
     "Brand",
     BRAND_OPTIONS,
@@ -731,18 +1032,6 @@ selected_brand = st.selectbox(
     format_func=_brand_label,
     key="airport_view_brand",
 )
-
-render_section_heading(
-    f"Airport insights for {_brand_label(selected_brand)}",
-    "The most decision-relevant location findings in the available Reddit feedback.",
-)
-render_insights(
-    insights,
-    page="Airport View",
-    section="Airport insights",
-    dropdown_brand=selected_brand,
-)
-_render_representative_comments(representative_comments, selected_brand)
 
 st.markdown(
     compact_html(
@@ -757,8 +1046,8 @@ st.markdown(
 )
 
 render_section_heading(
-    "Airport experience overview",
-    "The complete airport-level view for the selected brand filter.",
+    "Airport-Level Performance",
+    "Detailed location-level feedback for the selected brand view.",
 )
 all_airports_count = _render_all_airports(
     airport_rows, battleground_rows, selected_brand
@@ -783,15 +1072,22 @@ render_section_heading(
 battleground_count = _render_battlegrounds(battleground_rows, selected_brand)
 
 render_section_heading(
-    "Map",
-    "Geographic context for airports with sufficient evidence.",
+    "Airport Signal Map",
+    "A geographic view of where the strongest supported airport experience signals appear.",
 )
 map_rows = _filter_rows(airport_rows, selected_brand)
-map_competitive_airports = set(battleground_rows["airport_code"].astype(str))
 if selected_brand == "ALL":
-    map_legend = '<span><i class="mixed"></i> Supported airport</span>'
+    map_competitive_airports = set(battleground_rows["airport_code"].astype(str))
 else:
-    map_legend = '<span><i class="negative"></i> Qualifying negative location</span><span><i class="mixed"></i> Other included airport</span><span><i class="positive"></i> Qualifying positive location</span>'
+    map_competitive_airports = set(
+        battleground_rows.loc[
+            battleground_rows["brand"].eq(selected_brand), "airport_code"
+        ].astype(str)
+    )
+if selected_brand == "ALL":
+    map_legend = '<span><i class="supported"></i> Supported airport</span><span><i class="comparison"></i> Direct comparison available</span><span><i class="volume"></i> Marker size = evidence volume</span>'
+else:
+    map_legend = '<span><i class="negative"></i> Needs attention</span><span><i class="positive"></i> Performing well</span><span><i class="supported"></i> Other supported airport</span><span><i class="volume"></i> Marker size = evidence volume</span>'
 st.markdown(
     f'<div class="airport-exec-map-legend">{map_legend}</div>',
     unsafe_allow_html=True,
@@ -803,6 +1099,7 @@ with st.container(border=True, key="airport-exec-map-panel"):
         config=PLOT_CONFIG,
         theme=None,
     )
-st.caption(
-    "One marker is shown per included airport. All-brands markers use one neutral color because combining brands would create a misleading overall airport result. With a specific brand selected, green and red use the same qualifying positive and negative classifications as the ranked airport sections; other included airports remain gray. Marker size reflects unique qualifying comments."
+st.markdown(
+    '<div class="airport-exec-map-note">All Brands remains neutral because no combined brand sentiment is calculated. Select a brand to see the same experience classifications used in the airport cards above.</div>',
+    unsafe_allow_html=True,
 )

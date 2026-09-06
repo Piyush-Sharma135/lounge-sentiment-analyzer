@@ -25,30 +25,30 @@ pages = {
         st.Page(
             APP_DIR / "pages" / "00_home.py",
             title="Home",
-            icon="🏠",
+            icon=":material/home:",
             default=True,
         ),
         st.Page(
             APP_DIR / "pages" / "01_executive_overview.py",
             title="Executive Overview",
-            icon="📊",
+            icon=":material/analytics:",
         ),
         st.Page(
             APP_DIR / "pages" / "04_airport_explorer.py",
             title="Airport View",
-            icon="✈️",
+            icon=":material/flight:",
         ),
         st.Page(
             APP_DIR / "pages" / "06_voice_of_customer.py",
             title="Voice of Customer",
-            icon="💬",
+            icon=":material/forum:",
         ),
     ],
     "Evidence & methodology": [
         st.Page(
             APP_DIR / "pages" / "07_methodology_faq.py",
             title="FAQ / Methodology",
-            icon="ℹ️",
+            icon=":material/info:",
         ),
     ],
 }

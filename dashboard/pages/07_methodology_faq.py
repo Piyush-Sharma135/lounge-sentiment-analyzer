@@ -9,11 +9,11 @@ import pandas as pd
 import streamlit as st
 
 from components.layout import render_page_header
+from components.icons import title_icon_svg
 from components.methodology import (
     compact_validation_table,
     render_example_card,
     render_info_cards,
-    render_jump_links,
 )
 from utils.data_loader import load_canonical_dataset
 from utils.html import compact_html
@@ -43,11 +43,15 @@ EXPECTED_COUNTS = {
 }
 def _section(anchor: str, title: str, description: str = "") -> None:
     paragraph = f"<p>{escape(description)}</p>" if description else ""
+    icon = title_icon_svg(title, css_class="section-heading-icon")
     st.markdown(
         compact_html(
             f"""
             <div id="{escape(anchor)}" class="section-heading method-section-heading">
-                <div><h2>{escape(title)}</h2>{paragraph}</div>
+                <div>
+                    <div class="section-heading-title">{icon}<h2>{escape(title)}</h2></div>
+                    {paragraph}
+                </div>
             </div>
             """
         ),
@@ -147,20 +151,9 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-render_jump_links(
-    (
-        ("How was the analysis constructed?", "source-scope"),
-        ("What counted as lounge experience?", "experience-filtering"),
-        ("How were brands, lounges and airports assigned?", "attribution"),
-        ("How were lounge-experience themes identified?", "themes"),
-        ("How are sentiment and comments counted?", "sentiment-counting"),
-        ("How should I interpret the results?", "interpretation"),
-    )
-)
-
 _section(
     "source-scope",
-    "How was the analysis constructed?",
+    "Analysis Scope & Approach",
     "The dashboard covers lounge-related Reddit discussion from Jan–Aug 2026.",
 )
 st.markdown(
@@ -181,7 +174,7 @@ st.markdown(
 
 _section(
     "experience-filtering",
-    "What counted as lounge experience?",
+    "What Counts as Lounge Feedback",
     "A comment needed to express a defensible experience judgment.",
 )
 render_info_cards(
@@ -192,7 +185,7 @@ render_info_cards(
 )
 _section(
     "attribution",
-    "How were brands, lounges and airports assigned?",
+    "Brand, Lounge & Airport Attribution",
     "The analysis favors a conservative assignment over a confident-looking but unsupported one.",
 )
 st.markdown(
@@ -219,7 +212,7 @@ with st.expander("See an approved title-context example", expanded=False):
 
 _section(
     "themes",
-    "How were lounge-experience themes identified?",
+    "Experience Theme Framework",
     "Detailed experience areas are retained underneath a simpler executive presentation.",
 )
 st.markdown(
@@ -242,7 +235,7 @@ with st.expander("View the 19 detailed experience areas", expanded=False):
 
 _section(
     "sentiment-counting",
-    "How are sentiment and comments counted?",
+    "Sentiment & Comment Counting",
     "The dashboard keeps the customer voice readable without allowing repeated observations to overstate volume.",
 )
 st.markdown(
@@ -282,7 +275,7 @@ with example_columns[1]:
 
 _section(
     "interpretation",
-    "How should I interpret the results?",
+    "How to Read the Results",
     "Use the dashboard to identify directional experience signals and questions worth investigating.",
 )
 st.markdown(
@@ -300,4 +293,4 @@ st.markdown(
     ),
     unsafe_allow_html=True,
 )
-st.caption("The displayed values and examples are fixed for this analysis. No runtime LLM or external API is used.")
+st.caption("Examples and displayed results reflect the fixed Jan–Aug 2026 analysis.")

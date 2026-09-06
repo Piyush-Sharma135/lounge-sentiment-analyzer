@@ -6,6 +6,7 @@ from html import escape
 
 import streamlit as st
 
+from components.icons import title_icon_svg
 from utils.constants import SCOPE_BADGE, SCOPE_LABEL
 from utils.html import compact_html
 
@@ -46,11 +47,20 @@ def render_page_header(
 def render_section_heading(title: str, description: str = "") -> None:
     """Render a compact section title and optional explanatory line."""
     paragraph = f"<p>{escape(description)}</p>" if description else ""
+    icon = title_icon_svg(title, css_class="section-heading-icon")
+    tone = ""
+    if title in {"Positive Voices", "Airports performing well"}:
+        tone = " section-positive"
+    elif title in {"Negative Voices", "Airports needing attention"}:
+        tone = " section-negative"
     st.markdown(
         compact_html(
             f"""
-        <div class="section-heading">
-            <div><h2>{escape(title)}</h2>{paragraph}</div>
+        <div class="section-heading{tone}">
+            <div>
+                <div class="section-heading-title">{icon}<h2>{escape(title)}</h2></div>
+                {paragraph}
+            </div>
         </div>
         """
         ),

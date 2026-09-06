@@ -11,49 +11,13 @@
   line-height: 1.5;
 }
 
-.method-intro-strip { margin: 0 0 1.1rem; }
+.method-intro-strip { margin: 0 0 0.72rem; }
 .method-callout { margin: 0.7rem 0 1.05rem; }
 .method-callout.warm { border-color: #ead7af; border-left-color: #c48a28; background: #fff8eb; color: #654e27; }
 
 .method-section-heading {
   scroll-margin-top: 0.8rem;
   margin-top: 0;
-}
-
-.method-jump-nav {
-  margin: -0.08rem 0 0.82rem;
-  padding: 0.7rem 0.78rem;
-  border: 1px solid #d7e2ef;
-  border-radius: 11px;
-  background: #f7fafe;
-}
-
-.method-jump-nav strong {
-  display: block;
-  margin-bottom: 0.48rem;
-  color: #263e5e;
-  font-size: 0.68rem;
-}
-
-.method-jump-nav > div {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.42rem;
-}
-
-.method-jump-nav a {
-  display: flex;
-  align-items: center;
-  min-height: 2.25rem;
-  padding: 0.42rem 0.58rem;
-  border: 1px solid #d5e1ee;
-  border-radius: 9px;
-  background: #fff;
-  color: #315d91;
-  font-size: 0.59rem;
-  font-weight: 730;
-  line-height: 1.25;
-  text-decoration: none;
 }
 
 .method-rule-box {
@@ -85,11 +49,6 @@
   color: #607087;
   font-size: 0.64rem;
   line-height: 1.45;
-}
-
-.method-jump-nav a:hover {
-  border-color: #91afd2;
-  background: #edf4fc;
 }
 
 .method-faq-grid,
@@ -289,7 +248,6 @@
   .method-faq-card,
   .method-info-card { min-height: 0; }
   .method-funnel-stage { grid-template-columns: 86px minmax(0, 1fr); }
-  .method-jump-nav > div { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-width: 520px) {

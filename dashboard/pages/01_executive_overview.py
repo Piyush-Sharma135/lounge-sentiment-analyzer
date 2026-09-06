@@ -8,7 +8,9 @@ import pandas as pd
 import streamlit as st
 
 from components.executive_insights import render_insights, validate_insights
+from components.icons import theme_icon_svg
 from components.layout import render_page_header, render_section_heading
+from utils.assets import brand_logo_img
 from utils.constants import (
     DATA_DIR,
     ENTITY_COLORS,
@@ -369,7 +371,7 @@ def _render_brand_cards(
             compact_html(
                 f"""
                 <article class="exec-brand-card unified" style="--brand-color:{color}">
-                    <div class="exec-brand-mark">{escape(str(row['brand_display']))}</div>
+                    <div class="exec-brand-mark">{brand_logo_img(brand)}<span>{escape(str(row['brand_display']))}</span></div>
                     <div class="exec-brand-headline">{escape(str(insight['headline']))}</div>
                     <div class="exec-brand-interpretation">
                         <div class="exec-brand-signal positive">
@@ -427,7 +429,10 @@ def _render_theme_matrix(themes: pd.DataFrame) -> None:
             compact_html(
                 f"""
                 <div class="exec-matrix-row">
-                    <div class="exec-matrix-theme"><strong>{escape(theme)}</strong><span>{escape(THEME_SUBTHEMES[theme])}</span></div>
+                    <div class="exec-matrix-theme">
+                        <div class="exec-matrix-theme-heading">{theme_icon_svg(theme, css_class="theme-row-icon")}<strong>{escape(theme)}</strong></div>
+                        <span>{escape(THEME_SUBTHEMES[theme])}</span>
+                    </div>
                     {''.join(cells)}
                 </div>
                 """

@@ -111,6 +111,11 @@
 .home-theme-box > ul > li { font-size: 0.68rem; line-height: 1.5; }
 .home-theme-box > ul > li + li { margin-top: 0.32rem; }
 .home-theme-box strong { color: #263d5c; }
+.home-theme-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+}
 .home-theme-box li ul {
   margin: 0.04rem 0 0;
   padding-left: 1rem;
@@ -153,9 +158,10 @@
 .home-source-takeaway {
   width: min(900px, 100%);
   margin: -0.18rem auto 0.72rem;
-  color: #334a69;
+  color: #e7eef6;
   font-size: 0.72rem;
   font-weight: 700;
+  text-shadow: 0 1px 8px rgba(6, 22, 39, 0.24);
 }
 
 .home-scope-card {

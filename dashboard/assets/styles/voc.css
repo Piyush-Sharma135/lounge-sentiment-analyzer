@@ -1,11 +1,12 @@
-/* Executive Voice of Customer */
+/* Voice of Customer evidence gallery */
 [class*="st-key-voc_brand"] label p,
 [class*="st-key-voc_theme"] label p,
 [class*="st-key-voc_airport"] label p,
 [class*="st-key-voc_month"] label p,
 [class*="st-key-voc_compare_a"] label p,
-[class*="st-key-voc_compare_b"] label p {
-  color: #263b5b !important;
+[class*="st-key-voc_compare_b"] label p,
+[class*="st-key-voc_compare_theme"] label p {
+  color: #edf4fb !important;
   opacity: 1 !important;
   font-weight: 720 !important;
 }
@@ -18,201 +19,147 @@
   font-weight: 700 !important;
 }
 
-.voc-snapshot {
-  display: grid;
-  grid-template-columns: minmax(0, 2.1fr) minmax(220px, 0.9fr);
-  gap: 0.72rem;
-  margin-bottom: 1rem;
+.voc-hero-note {
+  margin: -0.45rem 0 1rem;
+  color: #d7e2ee;
+  font-size: 0.69rem;
+  line-height: 1.45;
 }
 
-.voc-snapshot.single {
-  grid-template-columns: minmax(0, 1fr);
+.voc-filter-context {
+  margin: 0.65rem 0 1.25rem;
+  color: #e2eaf3;
+  font-size: 0.66rem;
+  font-weight: 690;
 }
 
-.voc-snapshot-main,
-.voc-snapshot-aspect {
-  padding: 0.84rem 0.92rem;
-  border: 1px solid #dce3ec;
-  border-radius: 14px;
-  background: linear-gradient(145deg, #fff, #f8fafd);
-  box-shadow: 0 7px 22px rgba(24, 42, 70, 0.045);
-}
-
-.voc-snapshot-main > div:first-child {
-  display: flex;
-  align-items: baseline;
-  gap: 0.36rem;
-}
-
-.voc-snapshot-main > div:first-child strong {
-  color: #182d4a;
-  font-size: 1.55rem;
-  letter-spacing: -0.04em;
-}
-
-.voc-snapshot-main > div:first-child span,
-.voc-snapshot-aspect > span {
-  color: #68768b;
-  font-size: 0.62rem;
-}
-
-.voc-snapshot-main p {
-  display: flex;
-  gap: 0.34rem;
-  margin: 0.34rem 0 0;
-  font-size: 0.61rem;
-}
-
-.voc-snapshot-main p b { font-weight: 720; }
-.voc-snapshot-main p i { color: #a4adba; font-style: normal; }
-.voc-snapshot-main .positive,
-.voc-compare-counts .positive { color: #14795a; }
-.voc-snapshot-main .negative,
-.voc-compare-counts .negative { color: #bd414c; }
-.voc-snapshot-main .mixed,
-.voc-compare-counts .mixed { color: #7a8697; }
-
-.voc-sentiment-bar {
-  display: flex;
-  width: 100%;
-  height: 9px;
-  overflow: hidden;
-  margin-top: 0.48rem;
-  border-radius: 999px;
-  background: #e9edf2;
-}
-
-.voc-sentiment-bar i { display: block; height: 100%; }
-.voc-sentiment-bar i.positive { background: #168461; }
-.voc-sentiment-bar i.negative { background: #cd4e58; }
-.voc-sentiment-bar i.mixed { background: #aab4c2; }
-
-.voc-snapshot-aspect {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.voc-snapshot-aspect strong {
-  margin-top: 0.18rem;
-  color: #263d5d;
-  font-size: 0.92rem;
-}
-
-.voc-limited,
-.voc-empty,
 .voc-context-note {
-  margin-bottom: 1rem;
-  padding: 0.7rem 0.78rem;
-  border: 1px dashed #d5dde8;
-  border-radius: 10px;
-  color: #66758a;
-  font-size: 0.64rem;
+  margin: -0.1rem 0 0.72rem;
+  padding: 0.56rem 0.7rem;
+  border-left: 3px solid #8795aa;
+  border-radius: 0 9px 9px 0;
+  background: #f6f8fb;
+  color: #65748a;
+  font-size: 0.62rem;
+  line-height: 1.45;
 }
 
-.voc-limited { border-style: solid; background: #f6f8fc; }
-.voc-empty.compact { margin: 0; padding: 0.55rem; }
-
-.voc-tab-stack {
+.voc-voice-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.62rem;
-  padding-top: 0.72rem;
-  margin-bottom: 0.7rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.72rem;
+  margin: 0 0 1rem;
 }
 
-[data-testid="stTabs"] [role="tablist"] {
-  gap: 0.3rem;
-  border-bottom: 1px solid #dce3ec;
-}
-
-[data-testid="stTabs"] [role="tab"] {
-  min-height: 2.45rem;
-  padding: 0.45rem 0.78rem;
-  color: #607089 !important;
-  font-weight: 720;
-}
-
-[data-testid="stTabs"] [role="tab"][aria-selected="true"] {
-  color: #244a83 !important;
+.voc-voice-grid > .voc-quote-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 .voc-quote-card {
+  --voice-accent: #8995a7;
   position: relative;
+  display: flex;
+  flex-direction: column;
   min-width: 0;
-  padding: 0.9rem 0.94rem;
+  padding: 0.92rem 0.98rem;
   border: 1px solid #dce3ec;
+  border-top: 3px solid var(--voice-accent);
   border-radius: 14px;
-  background: #fff;
+  background: linear-gradient(145deg, #ffffff, #fbfcfe);
   box-shadow: 0 8px 24px rgba(24, 42, 70, 0.045);
 }
 
+.voc-quote-card.positive { --voice-accent: #2b9071; }
+.voc-quote-card.negative { --voice-accent: #cf5a63; }
+.voc-quote-card.mixed { --voice-accent: #8492a6; }
+
 .voc-quote-meta {
-  overflow: hidden;
-  color: #63748d;
-  font-size: 0.51rem;
+  color: #53657e;
+  font-size: 0.58rem;
   font-weight: 790;
-  letter-spacing: 0.035em;
-  line-height: 1.35;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  letter-spacing: 0.022em;
+  line-height: 1.4;
 }
 
+.voc-quote-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.32rem;
+  min-height: 0.35rem;
+  margin-top: 0.38rem;
+}
+
+.voc-quote-aspect,
 .voc-cross-badge {
   display: inline-flex;
-  margin-top: 0.42rem;
-  padding: 0.2rem 0.4rem;
+  align-items: center;
+  padding: 0.19rem 0.4rem;
   border-radius: 999px;
-  background: #eaf0f9;
-  color: #38577f;
-  font-size: 0.52rem;
-  font-weight: 780;
-}
-
-.voc-evidence-role {
-  display: block;
-  margin-bottom: 0.28rem;
-  color: #526985;
-  font-size: 0.52rem;
+  font-size: 0.51rem;
   font-weight: 760;
 }
 
-.voc-quote-card blockquote {
-  margin: 0.68rem 0 0.78rem;
-  color: #263b59;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.93rem;
-  line-height: 1.55;
+.voc-quote-aspect {
+  background: #f0f3f7;
+  color: #5e6e83;
 }
 
-.voc-quote-card .voc-quote-footer {
+.voc-cross-badge {
+  background: #e9f0fa;
+  color: #345a88;
+}
+
+.voc-quote-card blockquote {
+  flex: 1 1 auto;
+  margin: 0.62rem 0 0.78rem;
+  color: #243955;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.57;
+}
+
+.voc-quote-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.6rem;
   padding-top: 0.55rem;
-  border-top: 1px solid #e8ecf2;
+  border-top: 1px solid #e7ebf1;
   color: #788498;
   font-size: 0.56rem;
 }
 
-.voc-quote-card .voc-quote-footer a {
+.voc-quote-footer a {
   color: #315eaa;
   font-weight: 740;
   text-decoration: none;
   white-space: nowrap;
 }
 
-.voc-context-note {
-  border-style: solid;
-  border-left: 4px solid #8795aa;
-  background: #f7f9fc;
+.voc-quote-footer a:hover { text-decoration: underline; }
+
+.voc-empty {
+  margin: 0 0 1rem;
+  padding: 0.78rem 0.84rem;
+  border: 1px dashed #d5dde8;
+  border-left: 3px solid #8995a7;
+  border-radius: 10px;
+  background: #fafbfd;
+  color: #66758a;
+  font-size: 0.66rem;
+  line-height: 1.45;
 }
+
+.voc-empty.positive { border-left-color: #2b9071; }
+.voc-empty.negative { border-left-color: #cf5a63; }
+.voc-empty.mixed { border-left-color: #8492a6; }
+.voc-empty.compact { margin: 0; padding: 0.58rem; }
 
 .voc-compare-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.8rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.82rem;
+  margin-top: 0.65rem;
 }
 
 .voc-compare-side {
@@ -220,67 +167,53 @@
   padding: 0.9rem;
   border: 1px solid #d9e1ec;
   border-radius: 15px;
-  background: linear-gradient(145deg, #fff, #f8fafd);
+  background: linear-gradient(145deg, #ffffff, #f8fafd);
   box-shadow: 0 8px 24px rgba(24, 42, 70, 0.045);
 }
 
 .voc-compare-side h3 {
-  margin: 0;
+  margin: 0 0 0.72rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid #e3e8ef;
   color: #1f3655;
-  font-size: 1.05rem;
+  font-size: 1.04rem;
 }
 
-.voc-compare-counts {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.25rem 0.42rem;
-  margin-top: 0.4rem;
-  color: #768296;
+.voc-compare-group + .voc-compare-group {
+  margin-top: 0.82rem;
+  padding-top: 0.72rem;
+  border-top: 1px solid #e6eaf0;
+}
+
+.voc-compare-group > span,
+.voc-explicit-comparison > span {
+  display: block;
+  margin-bottom: 0.46rem;
+  color: #5f7088;
   font-size: 0.57rem;
+  font-weight: 790;
+  letter-spacing: 0.025em;
 }
 
-.voc-compare-counts > strong {
-  color: #213753;
-  font-size: 1.15rem;
-}
-
-.voc-compare-counts > b { font-size: 0.56rem; font-weight: 720; }
-
-.voc-compare-focus {
-  display: flex;
-  flex-direction: column;
-  margin: 0.58rem 0;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #e4e9f0;
-}
-
-.voc-compare-focus span {
-  color: #7b8697;
-  font-size: 0.53rem;
-}
-
-.voc-compare-focus strong {
-  margin-top: 0.12rem;
-  color: #344861;
-  font-size: 0.68rem;
-}
+.voc-compare-group.positive > span { color: #27775f; }
+.voc-compare-group.negative > span { color: #a94953; }
 
 .voc-compare-quotes {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.56rem;
 }
 
 .voc-quote-card.compact {
-  padding: 0.7rem;
-  border-radius: 10px;
+  padding: 0.72rem;
+  border-top-width: 2px;
+  border-radius: 11px;
   box-shadow: none;
 }
 
 .voc-quote-card.compact blockquote {
-  margin: 0.48rem 0 0.55rem;
-  font-size: 0.77rem;
-  line-height: 1.47;
+  margin: 0.5rem 0 0.58rem;
+  font-size: 0.81rem;
+  line-height: 1.49;
 }
 
 .voc-quote-card.compact .voc-quote-footer {
@@ -289,36 +222,31 @@
   gap: 0.2rem;
 }
 
-.voc-comparison-takeaway {
+.voc-explicit-comparison {
   margin-top: 0.78rem;
   padding: 0.82rem;
   border: 1px solid #d7e0ec;
-  border-left: 4px solid #3468d4;
-  border-radius: 12px;
+  border-radius: 13px;
   background: #f5f8fd;
 }
 
-.voc-comparison-takeaway > span {
-  display: block;
-  color: #6b7890;
-  font-size: 0.52rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.voc-comparison-takeaway > strong {
-  display: block;
-  margin-top: 0.18rem;
-  color: #2d4362;
-  font-size: 0.72rem;
-  line-height: 1.45;
-}
-
-.voc-comparison-takeaway > .voc-quote-card { margin-top: 0.68rem; }
-
 @media (max-width: 780px) {
-  .voc-snapshot,
-  .voc-compare-grid { grid-template-columns: 1fr; }
-  .voc-quote-card .voc-quote-footer { align-items: flex-start; flex-direction: column; gap: 0.28rem; }
+  .voc-voice-grid,
+  .voc-compare-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .voc-voice-grid > .voc-quote-card:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+
+  .voc-quote-card .voc-quote-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.28rem;
+  }
+
+  .voc-quote-card blockquote {
+    font-size: 0.94rem;
+  }
 }

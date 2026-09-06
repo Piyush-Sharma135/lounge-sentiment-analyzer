@@ -27,24 +27,6 @@ def render_faq_cards(items: tuple[tuple[str, str, str], ...]) -> None:
     st.markdown(f'<div class="method-faq-grid">{markup}</div>', unsafe_allow_html=True)
 
 
-def render_jump_links(items: tuple[tuple[str, str], ...]) -> None:
-    """Render a compact native-anchor index for the long methodology page."""
-    links = "".join(
-        f'<a href="#{escape(anchor)}">{escape(label)}</a>' for label, anchor in items
-    )
-    st.markdown(
-        compact_html(
-            f"""
-            <nav class="method-jump-nav" aria-label="Jump to section">
-                <strong>Jump to section</strong>
-                <div>{links}</div>
-            </nav>
-            """
-        ),
-        unsafe_allow_html=True,
-    )
-
-
 def render_funnel(counts: dict[str, int]) -> None:
     """Render the seven frozen analysis stages in executive language."""
     stages = (
