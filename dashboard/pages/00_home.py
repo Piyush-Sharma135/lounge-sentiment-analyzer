@@ -230,10 +230,6 @@ render_page_header(
     "A 2026 YTD view of how Reddit users describe airport lounge experiences across Amex, Chase, Capital One and Delta.",
     eyebrow="REDDIT LOUNGE INTELLIGENCE",
 )
-st.markdown(
-    '<div class="home-purpose-strip">The dashboard turns lounge-related Reddit feedback into brand, experience-theme, airport and customer-voice insights.</div>',
-    unsafe_allow_html=True,
-)
 
 render_section_heading("Where do you want to start?")
 navigation_cards = (
