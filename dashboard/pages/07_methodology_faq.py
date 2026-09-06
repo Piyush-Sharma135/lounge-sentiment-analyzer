@@ -193,9 +193,9 @@ st.markdown(
         """
         <div class="method-rule-box">
             <ul>
-                <li><strong>Comment first</strong> â€” a brand, lounge or airport named directly in the comment is used when clear.</li>
-                <li><strong>Title as limited context</strong> â€” the post title can clarify a reference only when it points to one unambiguous target.</li>
-                <li><strong>Unknown when uncertain</strong> â€” if the evidence does not support a reliable assignment, it remains unknown rather than being forced.</li>
+                <li><strong>Comment first</strong> &mdash; a brand, lounge or airport named directly in the comment is used when clear.</li>
+                <li><strong>Title as limited context</strong> &mdash; the post title can clarify a reference only when it points to one unambiguous target.</li>
+                <li><strong>Unknown when uncertain</strong> &mdash; if the evidence does not support a reliable assignment, it remains unknown rather than being forced.</li>
             </ul>
         </div>
         """

@@ -120,8 +120,10 @@ def render_insights(
         else:
             body_markup = compact_html(
                 f"""
-                <p class="leadership-insight-evidence">{escape(str(row['evidence_text']))}</p>
-                <p class="leadership-insight-action">{escape(str(row['implication_text']))}</p>
+                <ul class="leadership-insight-statements">
+                    <li class="leadership-insight-evidence">{escape(str(row['evidence_text']))}</li>
+                    <li class="leadership-insight-action">{escape(str(row['implication_text']))}</li>
+                </ul>
                 """
             )
         cards.append(
