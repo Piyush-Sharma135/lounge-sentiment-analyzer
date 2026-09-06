@@ -15,7 +15,7 @@ from utils.html import compact_html
 def render_page_header(
     title: str,
     description: str,
-    eyebrow: str = "Reddit Lounge Intelligence",
+    eyebrow: str = "REDDIT VOICE OF CUSTOMER",
     show_scope: bool = True,
     compact: bool = False,
     brands: tuple[str, ...] = (),

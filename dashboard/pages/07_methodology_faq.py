@@ -144,7 +144,7 @@ except (FileNotFoundError, KeyError, ValueError, DataContractError) as error:
 render_page_header(
     "FAQ / Methodology",
     "A concise guide to what was analyzed and how to interpret the results.",
-    eyebrow="REDDIT LOUNGE INTELLIGENCE",
+    eyebrow="REDDIT VOICE OF CUSTOMER",
 )
 st.markdown(
     '<div class="method-intro-strip">The dashboard uses Reddit feedback from Jan–Aug 2026. These answers focus on the choices needed to read the results responsibly.</div>',
